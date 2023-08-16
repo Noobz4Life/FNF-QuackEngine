@@ -77,6 +77,8 @@ import psychlua.HScript;
 import tea.SScript;
 #end
 
+import input.*;
+
 class PlayState extends MusicBeatState
 {
 	public static var STRUM_X = 42;
@@ -191,6 +193,9 @@ class PlayState extends MusicBeatState
 	public static var changedDifficulty:Bool = false;
 	public static var chartingMode:Bool = false;
 
+	//Input System
+	public var inputSystem:InputSystem;
+	
 	//Gameplay settings
 	public var healthGain:Float = 1;
 	public var healthLoss:Float = 1;
@@ -289,6 +294,21 @@ class PlayState extends MusicBeatState
 
 		if (FlxG.sound.music != null)
 			FlxG.sound.music.stop();
+
+		// Input System
+		trace(ClientPrefs.getGameplaySetting('inputSystem'));
+		switch(ClientPrefs.data.inputSystem)
+		{
+			case "Kade":
+				trace("Using Kade Input");
+				inputSystem = new input.KadeInputSystem();
+			case "Official":
+				trace("Using Official Input");
+				inputSystem = new input.OfficialInputSystem();
+			default:
+				trace("Using Psych Input");
+				inputSystem = new input.InputSystem();
+		}
 
 		// Gameplay settings
 		healthGain = ClientPrefs.getGameplaySetting('healthgain');
@@ -2606,10 +2626,14 @@ class PlayState extends MusicBeatState
 		{
 			if(notes.length > 0 && !boyfriend.stunned && generatedMusic && !endingSong)
 			{
+				
 				//more accurate hit time for the ratings?
 				var lastTime:Float = Conductor.songPosition;
 				if(Conductor.songPosition >= 0) Conductor.songPosition = FlxG.sound.music.time;
 
+				inputSystem.keyPressed(key);
+
+				/*
 				var canMiss:Bool = !ClientPrefs.data.ghostTapping;
 
 				// heavily based on my own code LOL if it aint broke dont fix it
@@ -2651,6 +2675,8 @@ class PlayState extends MusicBeatState
 					callOnScripts('onGhostTap', [key]);
 					if (canMiss && !boyfriend.stunned) noteMissPress(key);
 				}
+				*/
+
 
 				// I dunno what you need this for but here you go
 				//									- Shubs
@@ -2735,6 +2761,10 @@ class PlayState extends MusicBeatState
 			releaseArray.push(controls.justReleased(key));
 		}
 
+		inputSystem.holdArray = holdArray;
+		inputSystem.pressArray = holdArray;
+		inputSystem.releaseArray = holdArray;
+
 		// TO DO: Find a better way to handle controller inputs, this should work for now
 		if(controls.controllerMode && pressArray.contains(true))
 			for (i in 0...pressArray.length)
@@ -2744,17 +2774,7 @@ class PlayState extends MusicBeatState
 		if (startedCountdown && !boyfriend.stunned && generatedMusic)
 		{
 			// rewritten inputs???
-			if(notes.length > 0)
-			{
-				notes.forEachAlive(function(daNote:Note)
-				{
-					// hold note functions
-					if (strumsBlocked[daNote.noteData] != true && daNote.isSustainNote && holdArray[daNote.noteData] && daNote.canBeHit
-					&& daNote.mustPress && !daNote.tooLate && !daNote.wasGoodHit && !daNote.blockHit) {
-						goodNoteHit(daNote);
-					}
-				});
-			}
+			inputSystem.keysCheck();
 
 			if (holdArray.contains(true) && !endingSong) {
 				#if ACHIEVEMENTS_ALLOWED
