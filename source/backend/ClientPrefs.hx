@@ -67,6 +67,9 @@ class SaveVariables {
 		'opponentplay' => false
 	];
 
+	public var inputSystem:String = "Psych";
+	public var healthSystem:String = "Psych";
+
 	public var comboOffset:Array<Int> = [0, 0, 0, 0];
 	public var ratingOffset:Int = 0;
 	public var sickWindow:Int = 45;

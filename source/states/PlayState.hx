@@ -238,6 +238,7 @@ class PlayState extends MusicBeatState
 	// Discord RPC variables
 	var storyDifficultyText:String = "";
 	var detailsText:String = "";
+	var discordStateText:String = "";
 	var detailsPausedText:String = "";
 	#end
 
@@ -325,9 +326,9 @@ class PlayState extends MusicBeatState
 
 		// String that contains the mode defined here so it isn't necessary to call changePresence for each mode
 		if (isStoryMode)
-			detailsText = "Story Mode: " + WeekData.getCurrentWeek().weekName;
+			detailsText = "Story Mode: " + SONG.song + " - " + WeekData.getCurrentWeek().weekName + " (" + storyDifficultyText + ")";
 		else
-			detailsText = "Freeplay";
+			detailsText = "Freeplay: " + SONG.song + " (" + storyDifficultyText + ")";
 
 		// String for when the game is paused
 		detailsPausedText = "Paused - " + detailsText;
@@ -1206,7 +1207,7 @@ class PlayState extends MusicBeatState
 
 		#if desktop
 		// Updating Discord Rich Presence (with Time Left)
-		DiscordClient.changePresence(detailsText, SONG.song + " (" + storyDifficultyText + ")", iconP2.getCharacter(), true, songLength);
+		DiscordClient.changePresence(detailsText, discordStateText, iconP2.getCharacter(), true, songLength);
 		#end
 		setOnScripts('songLength', songLength);
 		callOnScripts('onSongStart');
@@ -1548,20 +1549,29 @@ class PlayState extends MusicBeatState
 	override public function onFocusLost():Void
 	{
 		#if desktop
-		if (health > 0 && !paused) DiscordClient.changePresence(detailsPausedText, SONG.song + " (" + storyDifficultyText + ")", iconP2.getCharacter());
+		if (health > 0 && !paused) DiscordClient.changePresence(detailsPausedText, discordStateText, iconP2.getCharacter());
 		#end
 
 		super.onFocusLost();
+	}
+
+	function updateDiscordState()
+	{
+		#if desktop
+		discordStateText = "Score: "+ songScore + " | Misses: " + songMisses;
+		#end
 	}
 
 	// Updating Discord Rich Presence.
 	function resetRPC(?cond:Bool = false)
 	{
 		#if desktop
+		// discordStateText = SONG.song + " (" + storyDifficultyText + ") quack";
+		updateDiscordState();
 		if (cond)
-			DiscordClient.changePresence(detailsText, SONG.song + " (" + storyDifficultyText + ")", iconP2.getCharacter(), true, songLength - Conductor.songPosition - ClientPrefs.data.noteOffset);
+			DiscordClient.changePresence(detailsText, discordStateText, iconP2.getCharacter(), true, songLength - Conductor.songPosition - ClientPrefs.data.noteOffset);
 		else
-			DiscordClient.changePresence(detailsText, SONG.song + " (" + storyDifficultyText + ")", iconP2.getCharacter());
+			DiscordClient.changePresence(detailsText, discordStateText, iconP2.getCharacter());
 		#end
 	}
 
@@ -1823,7 +1833,7 @@ class PlayState extends MusicBeatState
 		//}
 
 		#if desktop
-		DiscordClient.changePresence(detailsPausedText, SONG.song + " (" + storyDifficultyText + ")", iconP2.getCharacter());
+		DiscordClient.changePresence(detailsPausedText, discordStateText, iconP2.getCharacter());
 		#end
 	}
 
@@ -1883,7 +1893,7 @@ class PlayState extends MusicBeatState
 
 				#if desktop
 				// Game Over doesn't get his own variable because it's only used here
-				DiscordClient.changePresence("Game Over - " + detailsText, SONG.song + " (" + storyDifficultyText + ")", iconP2.getCharacter());
+				DiscordClient.changePresence("Game Over - " + detailsText, discordStateText, iconP2.getCharacter());
 				#end
 				isDead = true;
 				return true;
@@ -2166,6 +2176,8 @@ class PlayState extends MusicBeatState
 		var isDad:Bool = (SONG.notes[sec].mustHitSection != true);
 		moveCamera(isDad);
 		callOnScripts('onMoveCamera', [isDad ? 'dad' : 'boyfriend']);
+
+		updateDiscordState();
 	}
 
 	var cameraTwn:FlxTween;
@@ -3109,6 +3121,10 @@ class PlayState extends MusicBeatState
 		
 		setOnScripts('curSection', curSection);
 		callOnScripts('onSectionHit');
+
+		updateDiscordState();
+
+		if (health > 0 && !paused) resetRPC(Conductor.songPosition > 0.0);
 	}
 
 	#if LUA_ALLOWED
