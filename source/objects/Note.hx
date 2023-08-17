@@ -117,6 +117,8 @@ class Note extends FlxSprite
 	public var hitsoundChartEditor:Bool = true;
 	public var hitsound:String = 'hitsound';
 
+	public var sustainActive:Bool = true;
+
 	private function set_multSpeed(value:Float):Float {
 		resizeByRatio(value / multSpeed);
 		multSpeed = value;
@@ -406,29 +408,34 @@ class Note extends FlxSprite
 	{
 		super.update(elapsed);
 
-		if (mustPress)
-		{
-			canBeHit = (strumTime > Conductor.songPosition - (Conductor.safeZoneOffset * lateHitMult) &&
-						strumTime < Conductor.songPosition + (Conductor.safeZoneOffset * earlyHitMult));
-
-			if (strumTime < Conductor.songPosition - Conductor.safeZoneOffset && !wasGoodHit)
-				tooLate = true;
+		if (mustPress && PlayState.instance.inputSystem != null) {
+			return PlayState.instance.inputSystem.updateNote(this,elapsed);
 		}
-		else
-		{
-			canBeHit = false;
-
-			if (strumTime < Conductor.songPosition + (Conductor.safeZoneOffset * earlyHitMult))
+		else {
+			if (mustPress)
 			{
-				if((isSustainNote && prevNote.wasGoodHit) || strumTime <= Conductor.songPosition)
-					wasGoodHit = true;
-			}
-		}
+				canBeHit = (strumTime > Conductor.songPosition - (Conductor.safeZoneOffset * lateHitMult) &&
+							strumTime < Conductor.songPosition + (Conductor.safeZoneOffset * earlyHitMult));
 
-		if (tooLate && !inEditor)
-		{
-			if (alpha > 0.3)
-				alpha = 0.3;
+				if (strumTime < Conductor.songPosition - Conductor.safeZoneOffset && !wasGoodHit)
+					tooLate = true;
+			}
+			else
+			{
+				canBeHit = false;
+
+				if (strumTime < Conductor.songPosition + (Conductor.safeZoneOffset * earlyHitMult))
+				{
+					if((isSustainNote && prevNote.wasGoodHit) || strumTime <= Conductor.songPosition)
+						wasGoodHit = true;
+				}
+			}
+
+			if (tooLate && !inEditor)
+			{
+				if (alpha > 0.3)
+					alpha = 0.3;
+			}
 		}
 	}
 

@@ -1,5 +1,6 @@
 package input;
 
+import haxe.macro.Type.AbstractType;
 import objects.*;
 
 class InputSystem {
@@ -20,6 +21,47 @@ class InputSystem {
 
     public function callOnScripts(script,args) {
         Reflect.field(PlayState.instance,"callOnScripts")(script,args);
+    }
+
+    public function updateNote(note:Note,elapsed:Float) {
+        // we make these so i can easily just copy+paste any changes directly in with very slight modifications
+        // lazy i know, but it works doesn't it?
+        trace("updating note with InputSystem.hx");
+
+        var mustPress = note.mustPress;
+        var strumTime = note.strumTime;
+        var tooLate = note.tooLate;
+        var wasGoodHit = note.wasGoodHit;
+        var lateHitMult = note.lateHitMult;
+        var earlyHitMult = note.earlyHitMult;
+        var isSustainNote = note.isSustainNote;
+        var prevNote = note.prevNote;
+        var inEditor = note.inEditor;
+
+        if (mustPress)
+        {
+            note.canBeHit = (strumTime > Conductor.songPosition - (Conductor.safeZoneOffset * lateHitMult) &&
+                        strumTime < Conductor.songPosition + (Conductor.safeZoneOffset * earlyHitMult));
+
+            if (strumTime < Conductor.songPosition - Conductor.safeZoneOffset && !wasGoodHit)
+                tooLate = true;
+        }
+        else
+        {
+            note.canBeHit = false;
+
+            if (strumTime < Conductor.songPosition + (Conductor.safeZoneOffset * earlyHitMult))
+            {
+                if((isSustainNote && prevNote.wasGoodHit) || strumTime <= Conductor.songPosition)
+                    note.wasGoodHit = true;
+            }
+        }
+
+        if (tooLate && !inEditor)
+        {
+            if (note.alpha > 0.3)
+                note.alpha = 0.3;
+        }
     }
 
     public function keyPressed(key:Int) {

@@ -5,6 +5,55 @@ import objects.*;
 class KadeInputSystem extends InputSystem {
     public var closestNotes:Array<Note> = [];
 
+    public override function updateNote(note:Note,elapsed:Float) {
+        var mustPress = note.mustPress;
+        var strumTime = note.strumTime;
+        var tooLate = note.tooLate;
+        var wasGoodHit = note.wasGoodHit;
+        var lateHitMult = note.lateHitMult;
+        var earlyHitMult = note.earlyHitMult;
+        var isSustainNote = note.isSustainNote;
+        var prevNote = note.prevNote;
+        var inEditor = note.inEditor;
+        
+        var songMultiplier = PlayState.instance.playbackRate;
+        var timeScale:Float = Conductor.safeZoneOffset / 166;
+
+        if (mustPress)
+        {
+            if (isSustainNote)
+            {
+                if (strumTime - Conductor.songPosition <= (((166 * timeScale) / (songMultiplier < 1 ? songMultiplier : 1) * 0.5))
+                    && strumTime - Conductor.songPosition >= (((-166 * timeScale) / (songMultiplier < 1 ? songMultiplier : 1))))
+                    note.canBeHit = true;
+                else
+                    note.canBeHit = false;
+            }
+            else
+            {
+                if (strumTime - Conductor.songPosition <= (((166 * timeScale) / (songMultiplier < 1 ? songMultiplier : 1)))
+                    && strumTime - Conductor.songPosition >= (((-166 * timeScale) / (songMultiplier < 1 ? songMultiplier : 1))))
+                    note.canBeHit = true;
+                else
+                    note.canBeHit = false;
+            }
+            /*if (strumTime - Conductor.songPosition < (-166 * Conductor.timeScale) && !wasGoodHit)
+                tooLate = true; */
+        }
+        else
+        {
+            note.canBeHit = false;
+            // if (strumTime <= Conductor.songPosition)
+            //	wasGoodHit = true;
+        }
+
+        if (tooLate && !wasGoodHit)
+        {
+            if (note.alpha > 0.3)
+                note.alpha = 0.3;
+        }
+    }
+
     public override function keyPressed(key:Int) {
         var boyfriend = PlayState.instance.boyfriend;
         var notes = PlayState.instance.notes;
