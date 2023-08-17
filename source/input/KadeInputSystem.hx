@@ -196,9 +196,9 @@ class KadeInputSystem extends InputSystem {
         var ranking:String = "N/A";
         var accuracy = PlayState.instance.ratingPercent;
 
-		if (misses == 0 && bads == 0 && bads == 0 && bads == 0) // Marvelous (SICK) Full Combo
+		if (misses == 0 && bads == 0 && shits == 0 && goods == 0) // Marvelous (SICK) Full Combo
 			ranking = "MFC";
-		else if (misses == 0 && bads == 0 && bads == 0 && bads >= 1) // Good Full Combo (Nothing but Goods & Sicks)
+		else if (misses == 0 && bads == 0 && shits == 0 && goods >= 1) // Good Full Combo (Nothing but Goods & Sicks)
 			ranking = "GFC";
 		else if (misses == 0) // Regular FC
 			ranking = "FC";
