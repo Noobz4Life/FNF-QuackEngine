@@ -73,7 +73,7 @@ jobs:
         uses: actions/upload-artifact@v2.2.4
         with:
           name: windowsBuild
-          path: export/release/windows/bin
+          path: 'export/release/windows/bin'
   buildMac:
     runs-on: macos-latest
 
@@ -99,4 +99,4 @@ jobs:
         uses: actions/upload-artifact@v2.2.4
         with:
           name: macBuild
-          path: export/release/macos/bin
+          path: 'export/release/macos/bin'
