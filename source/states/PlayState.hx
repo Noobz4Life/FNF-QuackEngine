@@ -3112,6 +3112,8 @@ class PlayState extends MusicBeatState
 
 		setOnScripts('curBeat', curBeat);
 		callOnScripts('onBeatHit');
+
+		if (health > 0 && !paused) resetRPC(Conductor.songPosition > 0.0);
 	}
 
 	override function sectionHit()
@@ -3144,8 +3146,6 @@ class PlayState extends MusicBeatState
 		callOnScripts('onSectionHit');
 
 		updateDiscordState();
-
-		if (health > 0 && !paused) resetRPC(Conductor.songPosition > 0.0);
 	}
 
 	#if LUA_ALLOWED
