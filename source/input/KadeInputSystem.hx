@@ -191,4 +191,25 @@ class KadeInputSystem extends InputSystem {
             }
         }
     }
+
+    public function calculateRank(sicks:Int, goods:Int, bads:Int, shits:Int, misses:Int) {
+        var ranking:String = "N/A";
+        var accuracy = PlayState.instance.ratingPercent;
+
+		if (misses == 0 && bads == 0 && bads == 0 && bads == 0) // Marvelous (SICK) Full Combo
+			ranking = "MFC";
+		else if (misses == 0 && bads == 0 && bads == 0 && bads >= 1) // Good Full Combo (Nothing but Goods & Sicks)
+			ranking = "GFC";
+		else if (misses == 0) // Regular FC
+			ranking = "FC";
+		else if (misses < 10) // Single Digit Combo Breaks
+			ranking = "SDCB";
+		else
+			ranking = "Clear";
+
+        if (accuracy == 0)
+			ranking = "N/A";
+
+        return ranking;
+    }
 }

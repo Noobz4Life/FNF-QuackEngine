@@ -3416,6 +3416,14 @@ class PlayState extends MusicBeatState
 		var bads:Int = ratingsData[2].hits;
 		var shits:Int = ratingsData[3].hits;
 
+		if(inputSystem != null) {
+			var func = Reflect.getProperty(inputSystem,"calculateRank");
+			if(func != null && Reflect.isFunction(func)) {
+				ratingFC = func(sicks,goods,bads,shits,songMisses);
+				return;
+			}
+		}
+
 		ratingFC = 'Clear';
 		if(songMisses < 1)
 		{
