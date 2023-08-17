@@ -191,6 +191,8 @@ class KadeInputSystem extends InputSystem {
                 trace(i);
                 i.multAlpha = 0.3;
                 i.sustainActive = false;
+
+                PlayState.instance.health -= 0.15;
             }
         }
     }
