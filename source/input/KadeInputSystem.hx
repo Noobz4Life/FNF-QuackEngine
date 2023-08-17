@@ -91,7 +91,6 @@ class KadeInputSystem extends InputSystem {
             startDelay: Conductor.crochet * 0.001
         });
         */
-        trace("test");
     }
 
     public override function keyPressed(key:Int) {
@@ -121,8 +120,6 @@ class KadeInputSystem extends InputSystem {
         for (i in closestNotes)
             if (i.noteData == data && !i.isSustainNote)
                 dataNotes.push(i);
-
-        trace("notes able to hit for " + key + " " + dataNotes.length);
 
         if (dataNotes.length > 0)
         {
@@ -185,10 +182,8 @@ class KadeInputSystem extends InputSystem {
     public override function noteMissed(note:Note) {
         if (note.tail.length > 0)
         {
-            trace("hold fell over at the start");
             for (i in note.tail)
             {
-                trace(i);
                 i.multAlpha = 0.3;
                 i.sustainActive = false;
 
