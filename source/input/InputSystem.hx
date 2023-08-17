@@ -23,6 +23,9 @@ class InputSystem {
         Reflect.field(PlayState.instance,"callOnScripts")(script,args);
     }
 
+    public function noteMissed(note:Note) {
+    }
+
     public function updateNote(note:Note,elapsed:Float) {
         // we make these so i can easily just copy+paste any changes directly in with very slight modifications
         // lazy i know, but it works doesn't it?

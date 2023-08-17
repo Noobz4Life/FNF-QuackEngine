@@ -4,6 +4,7 @@ import objects.*;
 
 class KadeInputSystem extends InputSystem {
     public var closestNotes:Array<Note> = [];
+    private var currentTimingShown:FlxText;
 
     public override function updateNote(note:Note,elapsed:Float) {
         var mustPress = note.mustPress;
@@ -13,11 +14,17 @@ class KadeInputSystem extends InputSystem {
         var lateHitMult = note.lateHitMult;
         var earlyHitMult = note.earlyHitMult;
         var isSustainNote = note.isSustainNote;
+        var sustainActive = note.sustainActive;
         var prevNote = note.prevNote;
         var inEditor = note.inEditor;
         
         var songMultiplier = PlayState.instance.playbackRate;
         var timeScale:Float = Conductor.safeZoneOffset / 166;
+
+        if (!sustainActive)
+		{
+			note.alpha = 0.3;
+		}
 
         if (mustPress)
         {
@@ -49,9 +56,42 @@ class KadeInputSystem extends InputSystem {
 
         if (tooLate && !wasGoodHit)
         {
-            if (note.alpha > 0.3)
-                note.alpha = 0.3;
+            if (note.multAlpha > 0.3)
+                note.multAlpha = 0.3;
         }
+    }
+
+    private function showCurrentTiming(msTiming: Float) {
+        if (currentTimingShown != null)
+            PlayState.instance.remove(currentTimingShown);
+
+        currentTimingShown = new FlxText(0, 0, 0, "0ms");
+        currentTimingShown.borderStyle = OUTLINE;
+        currentTimingShown.borderSize = 1;
+        currentTimingShown.borderColor = FlxColor.BLACK;
+        currentTimingShown.text = msTiming + "ms";
+        currentTimingShown.size = 20;
+        currentTimingShown.color = FlxColor.CYAN;
+        currentTimingShown.alpha = 1;
+
+        var ratingX = (FlxG.width * 0.55) - 125;
+        var ratingY = -50;
+        
+        currentTimingShown.screenCenter();
+		currentTimingShown.x = ratingX + 100;
+		currentTimingShown.y = ratingY + 100;
+		currentTimingShown.acceleration.y = 600;
+		currentTimingShown.velocity.y = -300;
+
+        currentTimingShown.updateHitbox();
+        currentTimingShown.cameras = [PlayState.instance.camHUD];
+
+        /*
+        FlxTween.tween(currentTimingShown, {alpha: 0}, 0.2, {
+            startDelay: Conductor.crochet * 0.001
+        });
+        */
+        trace("test");
     }
 
     public override function keyPressed(key:Int) {
@@ -70,16 +110,12 @@ class KadeInputSystem extends InputSystem {
                 closestNotes.push(daNote);
         });
 
-        trace("amount of notes 1: " + closestNotes.length);
-
         var dataNotes = [];
         for (i in closestNotes)
             if (i.noteData == data && !i.isSustainNote)
                 dataNotes.push(i);
 
         closestNotes.sort((a, b) -> Std.int(a.strumTime - b.strumTime));
-
-        trace("amount of notes 2: " + closestNotes.length);
 
         var dataNotes = [];
         for (i in closestNotes)
@@ -119,6 +155,9 @@ class KadeInputSystem extends InputSystem {
             }
 
             boyfriend.holdTimer = 0;
+            var noteDiff:Float = -(coolNote.strumTime - Conductor.songPosition);
+
+            //showCurrentTiming(noteDiff);
             goodNoteHit(coolNote);
         }
         else
@@ -135,11 +174,24 @@ class KadeInputSystem extends InputSystem {
             notes.forEachAlive(function(daNote:Note)
             {
                 // TODO: add sustainactive
-                if (daNote.isSustainNote && daNote.canBeHit && daNote.mustPress && holdArray[daNote.noteData])
+                if (daNote.isSustainNote && daNote.canBeHit && daNote.mustPress && holdArray[daNote.noteData] && daNote.sustainActive)
                 {
                     goodNoteHit(daNote);
                 }
             });
+        }
+    }
+
+    public override function noteMissed(note:Note) {
+        if (note.tail.length > 0)
+        {
+            trace("hold fell over at the start");
+            for (i in note.tail)
+            {
+                trace(i);
+                i.multAlpha = 0.3;
+                i.sustainActive = false;
+            }
         }
     }
 }
