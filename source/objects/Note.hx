@@ -408,7 +408,7 @@ class Note extends FlxSprite
 	{
 		super.update(elapsed);
 
-		if (mustPress && PlayState.instance.inputSystem != null) {
+		if (mustPress && PlayState.instance != null && PlayState.instance.inputSystem != null) {
 			return PlayState.instance.inputSystem.updateNote(this,elapsed);
 		}
 		else {
