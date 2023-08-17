@@ -307,7 +307,7 @@ class PlayState extends MusicBeatState
 				inputSystem = new input.OfficialInputSystem();
 			default:
 				trace("Using Psych Input");
-				inputSystem = new input.InputSystem();
+				//inputSystem = new input.InputSystem();
 		}
 
 		// Gameplay settings
@@ -1779,7 +1779,7 @@ class PlayState extends MusicBeatState
 							{
 								if (daNote.mustPress && !cpuControlled &&!daNote.ignoreNote && (!daNote.isSustainNote || daNote.sustainActive) && !endingSong && (daNote.tooLate || !daNote.wasGoodHit))
 									noteMiss(daNote);
-									inputSystem.noteMissed(daNote);
+									if(inputSystem != null) inputSystem.noteMissed(daNote);
 
 								daNote.active = false;
 								daNote.visible = false;
@@ -2632,51 +2632,52 @@ class PlayState extends MusicBeatState
 				var lastTime:Float = Conductor.songPosition;
 				if(Conductor.songPosition >= 0) Conductor.songPosition = FlxG.sound.music.time;
 
-				inputSystem.keyPressed(key);
-
-				/*
-				var canMiss:Bool = !ClientPrefs.data.ghostTapping;
-
-				// heavily based on my own code LOL if it aint broke dont fix it
-				var pressNotes:Array<Note> = [];
-				var notesStopped:Bool = false;
-				var sortedNotesList:Array<Note> = [];
-				notes.forEachAlive(function(daNote:Note)
-				{
-					if (strumsBlocked[daNote.noteData] != true && daNote.canBeHit && daNote.mustPress &&
-						!daNote.tooLate && !daNote.wasGoodHit && !daNote.isSustainNote && !daNote.blockHit)
-					{
-						if(daNote.noteData == key) sortedNotesList.push(daNote);
-						canMiss = true;
-					}
-				});
-				sortedNotesList.sort(sortHitNotes);
-
-				if (sortedNotesList.length > 0) {
-					for (epicNote in sortedNotesList)
-					{
-						for (doubleNote in pressNotes) {
-							if (Math.abs(doubleNote.strumTime - epicNote.strumTime) < 1) {
-								doubleNote.kill();
-								notes.remove(doubleNote, true);
-								doubleNote.destroy();
-							} else
-								notesStopped = true;
-						}
-
-						// eee jack detection before was not super good
-						if (!notesStopped) {
-							goodNoteHit(epicNote);
-							pressNotes.push(epicNote);
-						}
-
-					}
+				if(inputSystem != null) {
+					inputSystem.keyPressed(key);
 				}
 				else {
-					callOnScripts('onGhostTap', [key]);
-					if (canMiss && !boyfriend.stunned) noteMissPress(key);
+					var canMiss:Bool = !ClientPrefs.data.ghostTapping;
+
+					// heavily based on my own code LOL if it aint broke dont fix it
+					var pressNotes:Array<Note> = [];
+					var notesStopped:Bool = false;
+					var sortedNotesList:Array<Note> = [];
+					notes.forEachAlive(function(daNote:Note)
+					{
+						if (strumsBlocked[daNote.noteData] != true && daNote.canBeHit && daNote.mustPress &&
+							!daNote.tooLate && !daNote.wasGoodHit && !daNote.isSustainNote && !daNote.blockHit)
+						{
+							if(daNote.noteData == key) sortedNotesList.push(daNote);
+							canMiss = true;
+						}
+					});
+					sortedNotesList.sort(sortHitNotes);
+
+					if (sortedNotesList.length > 0) {
+						for (epicNote in sortedNotesList)
+						{
+							for (doubleNote in pressNotes) {
+								if (Math.abs(doubleNote.strumTime - epicNote.strumTime) < 1) {
+									doubleNote.kill();
+									notes.remove(doubleNote, true);
+									doubleNote.destroy();
+								} else
+									notesStopped = true;
+							}
+
+							// eee jack detection before was not super good
+							if (!notesStopped) {
+								goodNoteHit(epicNote);
+								pressNotes.push(epicNote);
+							}
+
+						}
+					}
+					else {
+						callOnScripts('onGhostTap', [key]);
+						if (canMiss && !boyfriend.stunned) noteMissPress(key);
+					}
 				}
-				*/
 
 
 				// I dunno what you need this for but here you go
@@ -2762,9 +2763,11 @@ class PlayState extends MusicBeatState
 			releaseArray.push(controls.justReleased(key));
 		}
 
-		inputSystem.holdArray = holdArray;
-		inputSystem.pressArray = holdArray;
-		inputSystem.releaseArray = holdArray;
+		if (inputSystem != null) {
+			inputSystem.holdArray = holdArray;
+			inputSystem.pressArray = holdArray;
+			inputSystem.releaseArray = holdArray;
+		}
 
 		// TO DO: Find a better way to handle controller inputs, this should work for now
 		if(controls.controllerMode && pressArray.contains(true))
@@ -2774,8 +2777,23 @@ class PlayState extends MusicBeatState
 
 		if (startedCountdown && !boyfriend.stunned && generatedMusic)
 		{
-			// rewritten inputs???
-			inputSystem.keysCheck();
+			if(inputSystem != null) {
+				inputSystem.keysCheck();
+			}
+			else {
+				// rewritten inputs???
+				if(notes.length > 0)
+				{
+					notes.forEachAlive(function(daNote:Note)
+					{
+						// hold note functions
+						if (strumsBlocked[daNote.noteData] != true && daNote.isSustainNote && holdArray[daNote.noteData] && daNote.canBeHit
+						&& daNote.mustPress && !daNote.tooLate && !daNote.wasGoodHit && !daNote.blockHit) {
+							goodNoteHit(daNote);
+						}
+					});
+				}
+			}
 
 			if (holdArray.contains(true) && !endingSong) {
 				#if ACHIEVEMENTS_ALLOWED
