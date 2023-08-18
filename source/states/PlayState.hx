@@ -273,7 +273,7 @@ class PlayState extends MusicBeatState
 	override public function create()
 	{
 		//trace('Playback Rate: ' + playbackRate);
-		Paths.clearStoredMemory();
+		if(!ClientPrefs.data.clearMemoryBetweenSongs) Paths.clearStoredMemory();
 
 		startCallback = startCountdown;
 		endCallback = endSong;
@@ -670,7 +670,7 @@ class PlayState extends MusicBeatState
 		}
 
 		super.create();
-		Paths.clearUnusedMemory();
+		if(!ClientPrefs.data.clearMemoryBetweenSongs) Paths.clearUnusedMemory();
 		
 		CustomFadeTransition.nextCamera = camOther;
 		if(eventNotes.length < 1) checkEventNote();
