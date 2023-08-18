@@ -99,7 +99,7 @@ class TitleState extends MusicBeatState
 		#if CHECK_FOR_UPDATES
 		if(ClientPrefs.data.checkForUpdates && !closedState) {
 			trace('checking for update');
-			var http = new haxe.Http("https://raw.githubusercontent.com/Noobz4Life/FNF-QuackEngine/main/gitNubzVersion.txt");
+			var http = new haxe.Http("https://raw.githubusercontent.com/Noobz4Life/FNF-QuackEngine/main/gitVersion.txt");
 
 			http.onData = function (data:String)
 			{
