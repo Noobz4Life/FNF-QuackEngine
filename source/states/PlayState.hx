@@ -1578,7 +1578,7 @@ class PlayState extends MusicBeatState
 	function updateDiscordState()
 	{
 		#if desktop
-		discordStateText = "Score: "+ songScore + " | Misses: " + songMisses + " | Accuracy: " + (ratingPercent*100) + "% ( " + ratingFC + " )";
+		discordStateText = "Score: "+ songScore + " | Misses: " + songMisses + " | Accuracy: " + CoolUtil.floorDecimal(ratingPercent * 100, 2) + "% ( " + ratingFC + " )";
 		#end
 	}
 
