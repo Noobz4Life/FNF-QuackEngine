@@ -26,6 +26,20 @@ class GameplaySettingsSubState extends BaseOptionsMenu
 			'bool');
 		addOption(option);
 
+		var option:Option = new Option('Input System',
+			'Which input system should the engine use?',
+			'inputSystem',
+			'string',
+			['Psych','Kade',"Official"]);
+		addOption(option);
+
+		var option:Option = new Option('Health System',
+			'Which health system should the engine use?',
+			'healthSystem',
+			'string',
+			['Psych','Kade']);
+		addOption(option);
+
 		var option:Option = new Option('Ghost Tapping',
 			"If checked, you won't get misses from pressing keys\nwhile there are no notes able to be hit.",
 			'ghostTapping',
@@ -65,20 +79,6 @@ class GameplaySettingsSubState extends BaseOptionsMenu
 		option.scrollSpeed = 20;
 		option.minValue = -30;
 		option.maxValue = 30;
-		addOption(option);
-
-		var option:Option = new Option('Input System',
-			'Which input system should the engine use?',
-			'inputSystem',
-			'string',
-			['Psych','Kade',"Official"]);
-		addOption(option);
-
-		var option:Option = new Option('Health System',
-			'Which health system should the engine use?',
-			'healthSystem',
-			'string',
-			['Psych','Kade']);
 		addOption(option);
 
 		var option:Option = new Option('Sick! Hit Window',
