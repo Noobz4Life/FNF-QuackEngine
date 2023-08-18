@@ -83,6 +83,10 @@ class SaveVariables {
 	public var precacheBase:Bool = false;
 	public var precacheMods:Bool = false;
 
+	#if MOD_COMPAT_ALLOWED
+	public var legacyModCompat:Bool = false;
+	#end
+
 	public function new()
 	{
 		//Why does haxe needs this again?

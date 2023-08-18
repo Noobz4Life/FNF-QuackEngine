@@ -40,6 +40,14 @@ class GameplaySettingsSubState extends BaseOptionsMenu
 			['Psych','Kade']);
 		addOption(option);
 
+		#if MOD_COMPAT_ALLOWED
+		var option:Option = new Option('0.6 Compatability',
+			'Should the engine try to have compatability for pre-0.7 mods?\n(Not perfect and very hacky! Be warned!)',
+			'legacyModCompat',
+			'bool');
+		addOption(option);
+		#end
+
 		var option:Option = new Option('Ghost Tapping',
 			"If checked, you won't get misses from pressing keys\nwhile there are no notes able to be hit.",
 			'ghostTapping',
