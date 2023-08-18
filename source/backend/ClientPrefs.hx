@@ -80,8 +80,8 @@ class SaveVariables {
 	public var healthSystem:String = "Psych";
 	
 	public var clearMemoryBetweenSongs:Bool = true;
-	public var precacheMods:Bool = false;
 	public var precacheBase:Bool = false;
+	public var precacheMods:Bool = false;
 
 	public function new()
 	{

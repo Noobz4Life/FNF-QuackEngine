@@ -39,26 +39,6 @@ class GraphicsSettingsSubState extends BaseOptionsMenu
 			'bool');
 		addOption(option);
 
-		/*
-		var option:Option = new Option('Clear Memory between Songs', //Name
-			"If unchecked, don't clear memory unless going back to main menu\nChecking can lead to less loading time, but might cause a memory leak! Be careful!", //Description
-			'clearMemoryBetweenSongs',
-			'bool');
-		addOption(option);
-
-		var option:Option = new Option('Precache Base Game', //Name
-			"If checked, precaches every base game asset when loading a mod\n(higher memory usage, less stutters)", //Description
-			'precacheBase',
-			'bool');
-		addOption(option);
-
-		var option:Option = new Option('Precache Mods', //Name
-			"If checked, precaches EVERY asset from loaded mods.\n(higher memory usage, less stutters)", //Description
-			'precacheAll',
-			'bool');
-		addOption(option);
-		*/
-
 		var option:Option = new Option('GPU Caching', //Name
 			"If checked, allows the GPU to be used for caching textures, decreasing RAM usage.\nDon't turn this on if you have a shitty Graphics Card.", //Description
 			'cacheOnGPU',
