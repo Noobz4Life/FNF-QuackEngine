@@ -7,14 +7,14 @@ import lime.app.Application;
 class DiscordClient
 {
 	public static var isInitialized:Bool = false;
-	private static var _defaultID:String = "863222024192262205";
+	private static var _defaultID:String = "1141951587082842123";
 	public static var clientID(default, set):String = _defaultID;
 
 	private static var _options:Dynamic = {
 		details: "In the Menus",
 		state: null,
 		largeImageKey: 'icon',
-		largeImageText: "Psych Engine",
+		largeImageText: "Quack Engine",
 		smallImageKey : null,
 		startTimestamp : null,
 		endTimestamp : null
