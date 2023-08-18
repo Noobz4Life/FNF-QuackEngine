@@ -71,7 +71,7 @@ class GameplaySettingsSubState extends BaseOptionsMenu
 			'Which input system should the engine use?',
 			'inputSystem',
 			'string',
-			['Psych','Kade']);
+			['Psych','Kade',"Official"]);
 		addOption(option);
 
 		/*

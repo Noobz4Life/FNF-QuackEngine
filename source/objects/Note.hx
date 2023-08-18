@@ -118,6 +118,8 @@ class Note extends FlxSprite
 	public var hitsound:String = 'hitsound';
 
 	public var sustainActive:Bool = true;
+	public var willMiss:Bool = false;
+
 
 	private function set_multSpeed(value:Float):Float {
 		resizeByRatio(value / multSpeed);
