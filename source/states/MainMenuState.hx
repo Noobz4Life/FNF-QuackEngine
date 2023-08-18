@@ -17,7 +17,7 @@ import options.OptionsState;
 class MainMenuState extends MusicBeatState
 {
 	public static var psychEngineVersion:String = '0.7.1h'; //This is also used for Discord RPC
-	public static var nubzEngineVersion:String = '0.1'; //This is also used for Discord RPC
+	public static var quackEngineVersion:String = '0.1'; //This is also used for Discord RPC
 	public static var curSelected:Int = 0;
 
 	var menuItems:FlxTypedGroup<FlxSprite>;
@@ -116,7 +116,7 @@ class MainMenuState extends MusicBeatState
 		}
 
 		FlxG.camera.follow(camFollow, null, 0);
-		var versionShit:FlxText = new FlxText(12, FlxG.height - 64, 0, "Nubz Engine v" + nubzEngineVersion, 12);
+		var versionShit:FlxText = new FlxText(12, FlxG.height - 64, 0, "Quack Engine v" + quackEngineVersion, 12);
 		versionShit.scrollFactor.set();
 		versionShit.setFormat("VCR OSD Mono", 16, FlxColor.WHITE, LEFT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
 		add(versionShit);
