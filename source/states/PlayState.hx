@@ -2765,8 +2765,8 @@ class PlayState extends MusicBeatState
 
 		if (inputSystem != null) {
 			inputSystem.holdArray = holdArray;
-			inputSystem.pressArray = holdArray;
-			inputSystem.releaseArray = holdArray;
+			inputSystem.pressArray = pressArray;
+			inputSystem.releaseArray = releaseArray;
 		}
 
 		// TO DO: Find a better way to handle controller inputs, this should work for now
