@@ -21,3 +21,4 @@ export/*
 !.vscode/extensions.json
 
 BuildRelease.sh
+BuildRelease.bat
