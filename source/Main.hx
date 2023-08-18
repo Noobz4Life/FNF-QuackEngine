@@ -23,6 +23,13 @@ import sys.io.File;
 import sys.io.Process;
 #end
 
+#if linux
+@:cppFileCode('
+	#define GAMEMODE_AUTO
+	#include "gamemode_client.h"
+')
+#end
+
 class Main extends Sprite
 {
 	var game = {
@@ -38,7 +45,6 @@ class Main extends Sprite
 	public static var fpsVar:FPS;
 
 	// You can pretty much ignore everything from here on - your code should go in your states.
-
 	public static function main():Void
 	{
 		Lib.current.addChild(new Main());
