@@ -74,14 +74,12 @@ class GameplaySettingsSubState extends BaseOptionsMenu
 			['Psych','Kade',"Official"]);
 		addOption(option);
 
-		/*
 		var option:Option = new Option('Health System',
 			'Which health system should the engine use?',
 			'healthSystem',
 			'string',
-			['Psych','Kade', 'Official']);
+			['Psych','Kade']);
 		addOption(option);
-		*/
 
 		var option:Option = new Option('Sick! Hit Window',
 			'Changes the amount of time you have\nfor hitting a "Sick!" in milliseconds.',

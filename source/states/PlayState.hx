@@ -1578,7 +1578,7 @@ class PlayState extends MusicBeatState
 	function updateDiscordState()
 	{
 		#if desktop
-		discordStateText = "Score: "+ songScore + " | Misses: " + songMisses;
+		discordStateText = "Score: "+ songScore + " | Misses: " + songMisses + " | Accuracy: " + (ratingPercent*100) + "% ( " + ratingFC + " )";
 		#end
 	}
 
@@ -2971,7 +2971,35 @@ class PlayState extends MusicBeatState
 				if(combo > 9999) combo = 9999;
 				popUpScore(note);
 			}
-			health += note.hitHealth * healthGain;
+
+			switch(ClientPrefs.data.healthSystem) {
+				case("Kade"):
+					var defaultHitHealth = 0.023;
+					if(note.hitHealth > 0) { // dont want to accidentally make a hurt note a heal note, do we?
+						var noteDiff:Float = Math.abs(note.strumTime - Conductor.songPosition + ClientPrefs.data.ratingOffset);
+
+						var daRating:Rating = Conductor.judgeNote(ratingsData, noteDiff / playbackRate);
+						var healthMod:Float = 0;
+						switch (daRating.name)
+						{
+							case 'shit':
+								healthMod = -0.1;
+							case 'bad':
+								healthMod = -0.06;
+							case 'good':
+								// dont do anything on good
+							case 'sick':
+								healthMod = 0.04;
+						}
+
+						trace(healthMod);
+						health += (healthMod * (note.hitHealth / defaultHitHealth )) * healthGain;
+					} else {
+						health += note.hitHealth * healthGain;
+					}
+				default:
+					health += note.hitHealth * healthGain;
+			}
 
 			if(!note.noAnimation) {
 				var animToPlay:String = singAnimations[Std.int(Math.abs(Math.min(singAnimations.length-1, note.noteData)))];
