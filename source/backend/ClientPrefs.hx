@@ -67,9 +67,6 @@ class SaveVariables {
 		'opponentplay' => false
 	];
 
-	public var inputSystem:String = "Psych";
-	public var healthSystem:String = "Psych";
-
 	public var comboOffset:Array<Int> = [0, 0, 0, 0];
 	public var ratingOffset:Int = 0;
 	public var sickWindow:Int = 45;
@@ -77,6 +74,14 @@ class SaveVariables {
 	public var badWindow:Int = 135;
 	public var safeFrames:Float = 10;
 	public var discordRPC:Bool = true;
+
+	// Quack Engine stuffs
+	public var inputSystem:String = "Psych";
+	public var healthSystem:String = "Psych";
+	
+	public var clearMemoryBetweenSongs:Bool = true;
+	public var precacheMods:Bool = false;
+	public var precacheBase:Bool = false;
 
 	public function new()
 	{
