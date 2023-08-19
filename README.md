@@ -1,5 +1,14 @@
-# Friday Night Funkin' - Psych Engine
-Engine originally used on [Mind Games Mod](https://gamebanana.com/mods/301107), intended to be a fix for the vanilla version's many issues while keeping the casual play aspect of it. Also aiming to be an easier alternative to newbie coders.
+# Friday Night Funkin' - Quack Engine
+Psych Engine with some personalized tweaks
+
+Intended to be a drop-in replacement for normal Psych, rather than something for mods to build off of
+
+Extra features:
+- Better Discord RPC (E.g. show misses/accuracy in-game)
+- Custom Input Systems
+- Kade Health and Input Systems
+- Basic pre-0.7 Psych mod compatability
+- Feral Gamemode support ([hopefully will be merged into Psych](https://github.com/ShadowMario/FNF-PsychEngine/pull/13122))
 
 ## Installation:
 You must have [Haxe version 4.2.5](https://haxe.org/download/version/4.2.5/), seriously, stop using older or newer versions, it won't work!
