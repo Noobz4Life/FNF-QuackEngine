@@ -41,8 +41,8 @@ class GameplaySettingsSubState extends BaseOptionsMenu
 		addOption(option);
 
 		#if MOD_COMPAT_ALLOWED
-		var option:Option = new Option('0.6 Compatability',
-			'Should the engine try to have compatability for pre-0.7 mods?\n(Not perfect and very hacky! Be warned!)',
+		var option:Option = new Option('0.6 Compatibility',
+			'Should the engine try to have compatibility for pre-0.7 mods?\n(Not perfect and very hacky! Be warned!)',
 			'legacyModCompat',
 			'bool');
 		addOption(option);
