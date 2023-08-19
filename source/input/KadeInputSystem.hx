@@ -179,15 +179,28 @@ class KadeInputSystem extends InputSystem {
         }
     }
 
-    public override function noteMissed(note:Note) {
-        if (note.tail.length > 0)
+    public override function noteMissed(daNote:Note) {
+        if (daNote.tail.length > 0)
         {
-            for (i in note.tail)
+            for (i in daNote.tail)
             {
                 i.multAlpha = 0.3;
                 i.sustainActive = false;
 
                 PlayState.instance.health -= 0.15;
+            }
+        } else {
+            if (!daNote.wasGoodHit
+                && daNote.isSustainNote
+                && daNote.sustainActive
+                && daNote != daNote.parent.tail[daNote.parent.tail.length])
+            {
+                // health -= 0.05; // give a health punishment for failing a LN
+                for (i in daNote.parent.tail)
+                {
+                    i.multAlpha = 0.3;
+                    i.sustainActive = false;
+                }
             }
         }
     }
