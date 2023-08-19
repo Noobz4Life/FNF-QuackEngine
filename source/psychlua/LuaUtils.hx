@@ -109,6 +109,7 @@ class LuaUtils
 			if(retVal != null)
 				return retVal;
 		}
+
 		return Reflect.getProperty(instance, variable);
 	}
 	
@@ -128,6 +129,25 @@ class LuaUtils
 
 	public static function setGroupStuff(leArray:Dynamic, variable:String, value:Dynamic, ?allowMaps:Bool = false) {
 		var split:Array<String> = variable.split('.');
+
+		#if MOD_COMPAT_ALLOWED
+		var varOffset:Float = 0;
+		if (ClientPrefs.data.legacyModCompat) {
+			trace(split);
+			if (split[0] == "camFollowPos") {
+				split[0] = "camGame";
+				if (split[1] == "x" || split[1] == "y") {
+					split.insert(1,"scroll");
+					if (split[2] == "x") {
+						varOffset = -(FlxG.width/2);
+					} else if (split[2] == "y") {
+						varOffset = -(FlxG.height/2);
+					}
+				}
+			}
+		}
+		#end
+
 		if(split.length > 1) {
 			var obj:Dynamic = Reflect.getProperty(leArray, split[0]);
 			for (i in 1...split.length-1)
@@ -136,6 +156,13 @@ class LuaUtils
 			leArray = obj;
 			variable = split[split.length-1];
 		}
+
+		#if MOD_COMPAT_ALLOWED
+		if(ClientPrefs.data.legacyModCompat && varOffset != 0) {
+			variable = variable + varOffset;
+		}
+		#end
+
 		if(allowMaps && isMap(leArray)) leArray.set(variable, value);
 		else Reflect.setProperty(leArray, variable, value);
 		return value;
@@ -157,11 +184,36 @@ class LuaUtils
 
 	public static function getPropertyLoop(split:Array<String>, ?checkForTextsToo:Bool = true, ?getProperty:Bool=true, ?allowMaps:Bool = false):Dynamic
 	{
+		#if MOD_COMPAT_ALLOWED
+		var varOffset:Float = 0;
+		if (ClientPrefs.data.legacyModCompat) {
+			trace(split);
+			if (split[0] == "camFollowPos") {
+				split[0] = "camGame";
+				if (split[1] == "x" || split[1] == "y") {
+					split.insert(1,"scroll");
+					if (split[2] == "x") {
+						varOffset = -(FlxG.width/2);
+					} else if (split[2] == "y") {
+						varOffset = -(FlxG.height/2);
+					}
+				}
+			}
+		}
+		#end
+
 		var obj:Dynamic = getObjectDirectly(split[0], checkForTextsToo);
 		var end = split.length;
 		if(getProperty) end = split.length-1;
 
 		for (i in 1...end) obj = getVarInArray(obj, split[i], allowMaps);
+		
+		#if MOD_COMPAT_ALLOWED
+		if(ClientPrefs.data.legacyModCompat && varOffset != 0) {
+			obj = obj + varOffset;
+		}
+		#end
+
 		return obj;
 	}
 
@@ -174,7 +226,22 @@ class LuaUtils
 			
 			default:
 				var obj:Dynamic = PlayState.instance.getLuaObject(objectName, checkForTextsToo);
-				if(obj == null) obj = getVarInArray(getTargetInstance(), objectName, allowMaps);
+
+				if(obj == null) {
+					obj = getVarInArray(getTargetInstance(), objectName, allowMaps);
+
+
+					#if MOD_COMPAT_ALLOWED
+					if (obj == null && ClientPrefs.data.legacyModCompat) {
+						if (objectName == "healthBarBG") {
+							obj = getVarInArray(getTargetInstance(), "healthBar", allowMaps);
+							if(obj != null && obj.bg != null) {
+								obj = obj.bg;
+							}
+						}
+					}
+					#end
+				}
 				return obj;
 		}
 	}

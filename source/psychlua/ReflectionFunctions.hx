@@ -23,6 +23,25 @@ class ReflectionFunctions
 		});
 		Lua_helper.add_callback(lua, "setProperty", function(variable:String, value:Dynamic, allowMaps:Bool = false) {
 			var split:Array<String> = variable.split('.');
+
+			#if MOD_COMPAT_ALLOWED
+			var varOffset:Float = 0;
+			if (ClientPrefs.data.legacyModCompat) {
+				trace(split);
+				if (split[0] == "camFollowPos") {
+					split[0] = "camGame";
+					if (split[1] == "x" || split[1] == "y") {
+						split.insert(1,"scroll");
+						if (split[2] == "x") {
+							varOffset = -(FlxG.width/2);
+						} else if (split[2] == "y") {
+							varOffset = -(FlxG.height/2);
+						}
+					}
+				}
+			}
+			#end
+
 			if(split.length > 1) {
 				LuaUtils.setVarInArray(LuaUtils.getPropertyLoop(split, true, true, allowMaps), split[split.length-1], value, allowMaps);
 				return true;
