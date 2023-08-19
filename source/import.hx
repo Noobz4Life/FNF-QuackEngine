@@ -1,5 +1,6 @@
 
 //Discord API
+#if (haxe >= "4.3.0" && !macro)
 #if desktop
 import backend.Discord;
 #end
@@ -47,3 +48,4 @@ import flixel.group.FlxSpriteGroup;
 import flixel.group.FlxGroup.FlxTypedGroup;
 
 using StringTools;
+#end
