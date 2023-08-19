@@ -1,4 +1,6 @@
 # Friday Night Funkin' - Quack Engine
+<img src="https://img.shields.io/github/v/release/Noobz4Life/FNF-QuackEngine?style=for-the-badge" /> <img src="https://img.shields.io/github/license/Noobz4Life/FNF-QuackEngine?style=for-the-badge" /> <img src="https://img.shields.io/github/actions/workflow/status/Noobz4Life/FNF-QuackEngine/main.yml?style=for-the-badge" />
+
 Psych Engine with some personalized tweaks
 
 Intended to be a drop-in replacement for normal Psych, rather than something for mods to build off of
