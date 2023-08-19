@@ -9,7 +9,7 @@ Extra features:
 - Better Discord RPC (E.g. show misses/accuracy in-game)
 - Custom Input Systems
 - Kade Health and Input Systems
-- Basic pre-0.7 Psych mod compatability
+- Basic pre-0.7 Psych mod compatibility
 - Feral Gamemode support ([hopefully will be merged into Psych](https://github.com/ShadowMario/FNF-PsychEngine/pull/13122))
 
 ## Installation:
