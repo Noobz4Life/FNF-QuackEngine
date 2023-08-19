@@ -20,6 +20,6 @@ jobs:
         uses: AndreasAugustin/actions-template-sync@v1.1.1
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          source_repo_path: <owner/repo>
-          upstream_branch: <target_branch> # defaults to main
+          source_repo_path: ShadowMario/FNF-PsychEngine
+          upstream_branch: main # defaults to main
           pr_labels: <label1>,<label2>[,...] # optional, no default
