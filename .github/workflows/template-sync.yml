@@ -22,4 +22,4 @@ jobs:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           source_repo_path: ShadowMario/FNF-PsychEngine
           upstream_branch: main # defaults to main
-          pr_labels: <label1>,<label2>[,...] # optional, no default
+          pr_labels: Update upstream # optional, no default
