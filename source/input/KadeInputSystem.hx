@@ -179,6 +179,16 @@ class KadeInputSystem extends InputSystem {
         }
     }
 
+    private function addMiss() {
+        var practiceMode = PlayState.instance.practiceMode;
+        var endingSong = PlayState.instance.endingSong;
+
+        if(!practiceMode) PlayState.instance.songScore -= 10;
+        if(!endingSong) PlayState.instance.songMisses++;
+        PlayState.instance.totalPlayed++;
+        PlayState.instance.RecalculateRating(true);
+    }
+
     public override function noteMissed(daNote:Note) {
         if (daNote.tail.length > 0)
         {
@@ -186,6 +196,8 @@ class KadeInputSystem extends InputSystem {
             {
                 i.multAlpha = 0.3;
                 i.sustainActive = false;
+
+                addMiss();
 
                 PlayState.instance.health -= 0.15;
             }
@@ -200,6 +212,8 @@ class KadeInputSystem extends InputSystem {
                 {
                     i.multAlpha = 0.3;
                     i.sustainActive = false;
+
+                    addMiss();
                 }
             }
         }
