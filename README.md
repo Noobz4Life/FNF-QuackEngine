@@ -13,13 +13,30 @@ Extra features:
 - Feral Gamemode support ([hopefully will be merged into Psych](https://github.com/ShadowMario/FNF-PsychEngine/pull/13122))
 
 ## Installation:
-You must have [Haxe version 4.2.5](https://haxe.org/download/version/4.2.5/), seriously, stop using older or newer versions, it won't work!
 
-open up a Command Prompt/PowerShell or Terminal, type `haxelib install hmm`
+### Releases
 
-after it finishes, simply type `haxelib run hmm install` in order to install all the needed libraries for *Psych Engine!*
+Note that there is no releases for macOS, iOS, or Android. There is also not a build for 32-bit linux (there is one for 64-bit though!).
 
-If the compiler gives an error saying that hxCodec cannot be found read this issue to fix it: ShadowMario/FNF-PsychEngine#12770
+1. Simply go to the [latest release](https://github.com/Noobz4LIfe/FNF-QuackEngine/releases/latest) and download the version for your platform.
+2. Extract it into a folder
+3. Open QuackEngine and begin playing!
+### Compilation
+
+Quack engine is made for [Haxe version 4.3.1](https://haxe.org/download/version/4.3.1/), it should work on [4.2.5](https://haxe.org/download/version/4.2.5) as well due to Psych being made for that version!
+
+Open up a Command Prompt/PowerShell or Terminal in your working directory, type `haxelib install hmm`
+
+After it finishes, simply type `haxelib run hmm install` in order to install all the needed libraries for *Quack Engine!*
+
+If the compiler gives an error saying that hxCodec cannot be found read this to fix it:
+
+1. Open a command prompt **on your desktop**
+2. Type 'haxelib git hxCodec https://github.com/polybiusproxy/hxCodec.git'
+3. Refollow the steps above
+4. If it doesn't work, try refollowing step 2 but in your working directory.
+
+* Source: ShadowMario/FNF-PsychEngine#12770
 
 ## Customization:
 
@@ -62,6 +79,7 @@ _____________________________________
 ## Mod Support
 * Probably one of the main points of this engine, you can code in .lua files outside of the source code, making your own weeks without even messing with the source!
 * Comes with a Mod Organizing/Disabling Menu.
+* Quack Engine comes with basic pre-Psych 0.7 mod compatability, enable it in gameplay settings!
 
 
 ## Atleast one change to every week:
@@ -116,7 +134,7 @@ _____________________________________
 
 ## Options menu:
 * You can change Note colors, Delay and Combo Offset, Controls and Preferences there.
- * On Preferences you can toggle Downscroll, Middlescroll, Anti-Aliasing, Framerate, Low Quality, Note Splashes, Flashing Lights, etc.
+ * On Preferences you can toggle Downscroll, Middlescroll, Input System, Health System, Anti-Aliasing, Framerate, Low Quality, Note Splashes, Flashing Lights, etc.
 
 ## Other gameplay features:
 * When the enemy hits a note, their strum note also glows.

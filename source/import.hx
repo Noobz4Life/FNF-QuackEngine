@@ -1,6 +1,6 @@
 
 //Discord API
-#if (haxe >= "4.3.0" && !macro)
+#if (!macro)
 #if desktop
 import backend.Discord;
 #end
