@@ -2846,7 +2846,17 @@ class PlayState extends MusicBeatState
 		// score and data
 		var subtract:Float = 0.05;
 		if(note != null) subtract = note.missHealth;
-		health -= subtract * healthLoss;
+		switch(ClientPrefs.data.healthSystem) {
+			case("Kade"):
+				var defaultMissHealth = 0.0475;
+				if(subtract > 0) {
+					health -= (0.20 * (subtract / defaultMissHealth )) * healthLoss;
+				} else {
+					health -= subtract * healthLoss;
+				}
+			default:
+				health -= subtract * healthLoss;
+		}
 
 		if(instakillOnMiss)
 		{
