@@ -27,7 +27,6 @@ class ReflectionFunctions
 			#if MOD_COMPAT_ALLOWED
 			var gotoLoop = false;
 			if (ClientPrefs.data.legacyModCompat) {
-				trace(split);
 				if (split[0] == "camFollowPos") {
 					split[0] = "camGame";
 					PlayState.instance.isLegacyMod = true;
