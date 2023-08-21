@@ -133,16 +133,15 @@ class LuaUtils
 		#if MOD_COMPAT_ALLOWED
 		var varOffset:Float = 0;
 		if (ClientPrefs.data.legacyModCompat) {
-			trace(split);
 			if (split[0] == "camFollowPos") {
+				PlayState.instance.isLegacyMod = true;
 				split[0] = "camGame";
 				if (split[1] == "x" || split[1] == "y") {
 					split.insert(1,"scroll");
-					if (split[2] == "x") {
-						varOffset = -(FlxG.width/2);
-					} else if (split[2] == "y") {
-						varOffset = -(FlxG.height/2);
-					}
+					varOffset = LegacyModCompat.getVarOffset(split);
+					trace("[LMC] Corrected camFollowPos to camGame.scroll." +split[2]);
+				} else {
+					trace("[LMC] Corrected camFollowPos to camGame");
 				}
 			}
 		}
@@ -187,16 +186,15 @@ class LuaUtils
 		#if MOD_COMPAT_ALLOWED
 		var varOffset:Float = 0;
 		if (ClientPrefs.data.legacyModCompat) {
-			trace(split);
 			if (split[0] == "camFollowPos") {
+				PlayState.instance.isLegacyMod = true;
 				split[0] = "camGame";
 				if (split[1] == "x" || split[1] == "y") {
 					split.insert(1,"scroll");
-					if (split[2] == "x") {
-						varOffset = -(FlxG.width/2);
-					} else if (split[2] == "y") {
-						varOffset = -(FlxG.height/2);
-					}
+					varOffset = LegacyModCompat.getVarOffset(split);
+					trace("[LMC] Corrected camFollowPos to camGame.scroll." +split[2]);
+				} else {
+					trace("[LMC] Corrected camFollowPos to camGame");
 				}
 			}
 		}
@@ -234,9 +232,11 @@ class LuaUtils
 					#if MOD_COMPAT_ALLOWED
 					if (obj == null && ClientPrefs.data.legacyModCompat) {
 						if (objectName == "healthBarBG") {
+							PlayState.instance.isLegacyMod = true;
 							obj = getVarInArray(getTargetInstance(), "healthBar", allowMaps);
 							if(obj != null && obj.bg != null) {
 								obj = obj.bg;
+								trace("[LMC] Corrected healthBarBG to healthBar.bg");
 							}
 						}
 					}

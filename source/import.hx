@@ -23,6 +23,10 @@ import backend.BaseStage;
 import backend.Difficulty;
 import backend.Mods;
 
+#if MOD_COMPAT_ALLOWED
+import backend.LegacyModCompat;
+#end
+
 import objects.Alphabet;
 import objects.BGSprite;
 

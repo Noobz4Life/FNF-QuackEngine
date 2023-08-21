@@ -25,24 +25,24 @@ class ReflectionFunctions
 			var split:Array<String> = variable.split('.');
 
 			#if MOD_COMPAT_ALLOWED
-			var varOffset:Float = 0;
+			var gotoLoop = false;
 			if (ClientPrefs.data.legacyModCompat) {
 				trace(split);
 				if (split[0] == "camFollowPos") {
 					split[0] = "camGame";
+					PlayState.instance.isLegacyMod = true;
+					gotoLoop = true;
 					if (split[1] == "x" || split[1] == "y") {
 						split.insert(1,"scroll");
-						if (split[2] == "x") {
-							varOffset = -(FlxG.width/2);
-						} else if (split[2] == "y") {
-							varOffset = -(FlxG.height/2);
-						}
+
+						LuaUtils.setVarInArray(LuaUtils.getPropertyLoop(split, true, true, allowMaps), split[split.length-1], value, allowMaps);
+						return true;
 					}
 				}
 			}
 			#end
 
-			if(split.length > 1) {
+			if(split.length > 1 #if MOD_COMPAT_ALLOWED || gotoLoop #end) {
 				LuaUtils.setVarInArray(LuaUtils.getPropertyLoop(split, true, true, allowMaps), split[split.length-1], value, allowMaps);
 				return true;
 			}
@@ -54,21 +54,7 @@ class ReflectionFunctions
 			
 			#if MOD_COMPAT_ALLOWED
 			if(myClass == null && ClientPrefs.data.legacyModCompat) {
-				var classPrefixes:Array<String> = [
-					"states",
-					"substates",
-					"backend",
-					"objects"
-				];
-				for(prefix in classPrefixes) {
-					var prefixedClass:Dynamic = Type.resolveClass(prefix + '.' + classVar);
-					trace(prefix + '.' + classVar);
-					if(prefixedClass != null) {
-						myClass = prefixedClass;
-						trace("Resolved " + classVar + "!");
-						break;
-					}
-				}
+				myClass = LegacyModCompat.resolveClass(classVar);
 			}
 			#end
 
@@ -93,21 +79,7 @@ class ReflectionFunctions
 
 			#if MOD_COMPAT_ALLOWED
 			if(myClass == null && ClientPrefs.data.legacyModCompat) {
-				var classPrefixes:Array<String> = [
-					"states",
-					"substates",
-					"backend",
-					"objects"
-				];
-				for(prefix in classPrefixes) {
-					var prefixedClass:Dynamic = Type.resolveClass(prefix + '.' + classVar);
-					trace(prefix + '.' + classVar);
-					if(prefixedClass != null) {
-						myClass = prefixedClass;
-						trace("Resolved " + classVar + "!");
-						break;
-					}
-				}
+				myClass = LegacyModCompat.resolveClass(classVar);
 			}
 			#end
 
