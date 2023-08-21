@@ -98,7 +98,19 @@ class ExtraFunctions
 				case 'down': return PlayState.instance.controls.NOTE_DOWN_P;
 				case 'up': return PlayState.instance.controls.NOTE_UP_P;
 				case 'right': return PlayState.instance.controls.NOTE_RIGHT_P;
-				default: return PlayState.instance.controls.justPressed(name);
+				default: 
+					#if MOD_COMPAT_ALLOWED
+					if(ClientPrefs.data.legacyModCompat) {
+						switch(name) {
+							case 'accept': return PlayState.instance.controls.ACCEPT;
+							case 'back': return PlayState.instance.controls.BACK;
+							case 'pause': return PlayState.instance.controls.PAUSE;
+							case 'reset': return PlayState.instance.controls.RESET;
+							case 'space': return FlxG.keys.justPressed.SPACE;
+						}
+					}
+					#end
+					return PlayState.instance.controls.justPressed(name);
 			}
 			return false;
 		});
@@ -109,7 +121,13 @@ class ExtraFunctions
 				case 'down': return PlayState.instance.controls.NOTE_DOWN;
 				case 'up': return PlayState.instance.controls.NOTE_UP;
 				case 'right': return PlayState.instance.controls.NOTE_RIGHT;
-				default: return PlayState.instance.controls.pressed(name);
+				default: 
+					#if MOD_COMPAT_ALLOWED
+					if(ClientPrefs.data.legacyModCompat) {
+						if (name == "space") return FlxG.keys.justPressed.SPACE;
+					}
+					#end
+					return PlayState.instance.controls.pressed(name);
 			}
 			return false;
 		});
@@ -120,7 +138,13 @@ class ExtraFunctions
 				case 'down': return PlayState.instance.controls.NOTE_DOWN_R;
 				case 'up': return PlayState.instance.controls.NOTE_UP_R;
 				case 'right': return PlayState.instance.controls.NOTE_RIGHT_R;
-				default: return PlayState.instance.controls.justReleased(name);
+				default: 
+					#if MOD_COMPAT_ALLOWED
+					if(ClientPrefs.data.legacyModCompat) {
+						if (name == "space") return FlxG.keys.justPressed.SPACE;
+					}
+					#end
+					return PlayState.instance.controls.justReleased(name);
 			}
 			return false;
 		});
