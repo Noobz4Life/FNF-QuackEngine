@@ -149,6 +149,10 @@ class PlayState extends MusicBeatState
 	public static var storyPlaylist:Array<String> = [];
 	public static var storyDifficulty:Int = 1;
 
+	#if MOD_COMPAT_ALLOWED
+	public var isLegacyMod:Bool = false;
+	#end
+
 	public var spawnTime:Float = 2000;
 
 	public var vocals:FlxSound;
