@@ -293,6 +293,8 @@ class PauseSubState extends MusicBeatSubstate
 					PlayState.deathCounter = 0;
 					PlayState.seenCutscene = false;
 
+					if (ClientPrefs.data.precacheList) SongCacheList.saveSongCache();
+
 					Mods.loadTopMod();
 					if(PlayState.isStoryMode) {
 						MusicBeatState.switchState(new StoryMenuState());
@@ -325,6 +327,8 @@ class PauseSubState extends MusicBeatSubstate
 		PlayState.instance.paused = true; // For lua
 		FlxG.sound.music.volume = 0;
 		PlayState.instance.vocals.volume = 0;
+
+		if (ClientPrefs.data.precacheList) SongCacheList.saveSongCache();
 
 		if(noTrans)
 		{

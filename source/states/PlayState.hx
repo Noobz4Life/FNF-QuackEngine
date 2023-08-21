@@ -673,6 +673,8 @@ class PlayState extends MusicBeatState
 			}
 		}
 
+		if (ClientPrefs.data.precacheList) SongCacheList.reset();
+
 		super.create();
 		Paths.clearUnusedMemory();
 		
@@ -1904,6 +1906,8 @@ class PlayState extends MusicBeatState
 
 				persistentUpdate = false;
 				persistentDraw = false;
+
+				if (ClientPrefs.data.precacheList) SongCacheList.saveSongCache();
 				#if LUA_ALLOWED
 				for (tween in modchartTweens) {
 					tween.active = true;
@@ -2279,6 +2283,8 @@ class PlayState extends MusicBeatState
 				return false;
 			}
 		}
+
+		if (ClientPrefs.data.precacheList) SongCacheList.saveSongCache();
 
 		timeBar.visible = false;
 		timeTxt.visible = false;
