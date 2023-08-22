@@ -306,9 +306,9 @@ class PlayState extends MusicBeatState
 			case "Kade":
 				trace("Using Kade Input");
 				inputSystem = new input.KadeInputSystem();
-			case "Official":
-				trace("Using Official Input");
-				inputSystem = new input.OfficialInputSystem();
+			case "Vanilla":
+				trace("Using Vanilla Input");
+				inputSystem = new input.VanillaInputSystem();
 			default:
 				trace("Using Psych Input");
 				//inputSystem = new input.InputSystem();
