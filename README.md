@@ -1,5 +1,10 @@
-# Friday Night Funkin' - Quack Engine
+<div align="center">
+<img alt="Quack Engine" src="https://raw.githubusercontent.com/Noobz4Life/FNF-QuackEngine/experimental/art/thumbnailQuack.png">
+<br />
 <img src="https://img.shields.io/github/v/release/Noobz4Life/FNF-QuackEngine?style=for-the-badge" /> <img src="https://img.shields.io/github/license/Noobz4Life/FNF-QuackEngine?style=for-the-badge" /> <img src="https://img.shields.io/github/actions/workflow/status/Noobz4Life/FNF-QuackEngine/main.yml?style=for-the-badge" />
+</div>
+
+# Friday Night Funkin' - Quack Engine
 
 Psych Engine with some personalized tweaks
 
