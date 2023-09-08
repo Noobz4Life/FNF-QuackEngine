@@ -2,7 +2,7 @@ package input;
 
 import objects.*;
 
-class OfficialInputSystem extends InputSystem {
+class VanillaInputSystem extends InputSystem {
     public override function updateNote(note:Note,elapsed:Float) {
         if (note.mustPress)
         {

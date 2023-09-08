@@ -30,7 +30,7 @@ class GameplaySettingsSubState extends BaseOptionsMenu
 			'Which input system should the engine use?',
 			'inputSystem',
 			'string',
-			['Psych','Kade',"Official"]);
+			['Psych','Kade',"Vanilla"]);
 		addOption(option);
 
 		var option:Option = new Option('Health System',

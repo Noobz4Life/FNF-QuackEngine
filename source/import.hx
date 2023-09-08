@@ -22,6 +22,11 @@ import backend.Conductor;
 import backend.BaseStage;
 import backend.Difficulty;
 import backend.Mods;
+import backend.SongCacheList;
+
+#if MOD_COMPAT_ALLOWED
+import backend.LegacyModCompat;
+#end
 
 import objects.Alphabet;
 import objects.BGSprite;

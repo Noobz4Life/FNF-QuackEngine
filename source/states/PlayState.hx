@@ -149,6 +149,10 @@ class PlayState extends MusicBeatState
 	public static var storyPlaylist:Array<String> = [];
 	public static var storyDifficulty:Int = 1;
 
+	#if MOD_COMPAT_ALLOWED
+	public var isLegacyMod:Bool = false;
+	#end
+
 	public var spawnTime:Float = 2000;
 
 	public var vocals:FlxSound;
@@ -302,9 +306,9 @@ class PlayState extends MusicBeatState
 			case "Kade":
 				trace("Using Kade Input");
 				inputSystem = new input.KadeInputSystem();
-			case "Official":
-				trace("Using Official Input");
-				inputSystem = new input.OfficialInputSystem();
+			case "Vanilla":
+				trace("Using Vanilla Input");
+				inputSystem = new input.VanillaInputSystem();
 			default:
 				trace("Using Psych Input");
 				//inputSystem = new input.InputSystem();
@@ -668,6 +672,8 @@ class PlayState extends MusicBeatState
 					Paths.music(key);
 			}
 		}
+
+		if (ClientPrefs.data.precacheList) SongCacheList.reset();
 
 		super.create();
 		Paths.clearUnusedMemory();
@@ -1900,6 +1906,8 @@ class PlayState extends MusicBeatState
 
 				persistentUpdate = false;
 				persistentDraw = false;
+
+				if (ClientPrefs.data.precacheList) SongCacheList.saveSongCache();
 				#if LUA_ALLOWED
 				for (tween in modchartTweens) {
 					tween.active = true;
@@ -2275,6 +2283,8 @@ class PlayState extends MusicBeatState
 				return false;
 			}
 		}
+
+		if (ClientPrefs.data.precacheList) SongCacheList.saveSongCache();
 
 		timeBar.visible = false;
 		timeTxt.visible = false;
