@@ -83,6 +83,10 @@ class SaveVariables {
 	public var precacheBase:Bool = false;
 	public var precacheMods:Bool = false;
 
+	#if (target.threaded)
+	public var multiThreading:Bool = false;
+	#end
+
 	#if MOD_COMPAT_ALLOWED
 	public var legacyModCompat:Bool = false;
 	#end

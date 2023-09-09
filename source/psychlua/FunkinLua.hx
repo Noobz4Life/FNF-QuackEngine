@@ -755,13 +755,13 @@ class FunkinLua {
 			game.addCharacterToList(name, charType);
 		});
 		Lua_helper.add_callback(lua, "precacheImage", function(name:String, ?allowGPU:Bool = true) {
-			Paths.image(name, allowGPU);
+			backend.Threader.create(function() {Paths.image(name, allowGPU);});
 		});
 		Lua_helper.add_callback(lua, "precacheSound", function(name:String) {
-			Paths.sound(name);
+			backend.Threader.create(function() {Paths.sound(name);});
 		});
 		Lua_helper.add_callback(lua, "precacheMusic", function(name:String) {
-			Paths.music(name);
+			backend.Threader.create(function() {Paths.music(name);});
 		});
 
 		// others

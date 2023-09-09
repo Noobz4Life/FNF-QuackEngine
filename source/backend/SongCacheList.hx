@@ -45,6 +45,6 @@ class SongCacheList {
     public static function reset() {
         trace("reset called");
         cache = [];
-        loadSongCache();
+        backend.Threader.create(loadSongCache);
     }
 }
