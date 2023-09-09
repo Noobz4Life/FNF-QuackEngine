@@ -673,10 +673,10 @@ class PlayState extends MusicBeatState
 			}
 		}
 
-		if (ClientPrefs.data.precacheList) SongCacheList.reset();
-
 		super.create();
 		Paths.clearUnusedMemory();
+
+		if (ClientPrefs.data.precacheList) SongCacheList.reset();
 		
 		CustomFadeTransition.nextCamera = camOther;
 		if(eventNotes.length < 1) checkEventNote();
