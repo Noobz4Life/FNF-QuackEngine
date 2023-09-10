@@ -489,7 +489,7 @@ class FlxSound extends FlxBasic
 
 			endTime = EndTime;
 			return this;
-		});
+		},true);
 		return this;
 	}
 
