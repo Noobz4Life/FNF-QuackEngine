@@ -4,7 +4,7 @@ import sys.thread.Lock;
 import sys.thread.Thread;
 
 class Threader {
-    private static var threads:Array<Thread> = [];
+    private static var threads:Int = 0;
     private static var lock:Lock = new Lock();
 
     public static function create(job:() -> Void):Thread {
@@ -14,19 +14,16 @@ class Threader {
                 job();
                 lock.release();
             });
-            trace(thread);
-            threads.push(thread);
+            threads++;
             return thread;
         } else #end job();
         return null;
     }
 
     public static function wait() {
-        trace(threads.length);
-        if(threads.length <= 0) return;
-        for(_ in threads) {
+        while(threads > 0) {
             lock.wait();
+            threads--;
         }
-        threads = [];
     }
 }
