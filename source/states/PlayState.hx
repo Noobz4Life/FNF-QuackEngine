@@ -1946,8 +1946,9 @@ class PlayState extends MusicBeatState
 			if(eventNotes[0].value2 != null)
 				value2 = eventNotes[0].value2;
 
+			var event = eventNotes[0].event;
 			backend.Threader.create(() -> {
-				triggerEvent(eventNotes[0].event, value1, value2, leStrumTime);
+				triggerEvent(event, value1, value2, leStrumTime);
 			});
 			eventNotes.shift();
 		}
