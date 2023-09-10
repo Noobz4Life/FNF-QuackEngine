@@ -406,56 +406,54 @@ class PlayState extends MusicBeatState
 		dadGroup = new FlxSpriteGroup(DAD_X, DAD_Y);
 		gfGroup = new FlxSpriteGroup(GF_X, GF_Y);
 
-		backend.Threader.create(function() {
-			switch (curStage)
+		switch (curStage)
+		{
+			case 'stage': new states.stages.StageWeek1(); //Week 1
+			case 'spooky': new states.stages.Spooky(); //Week 2
+			case 'philly': new states.stages.Philly(); //Week 3
+			case 'limo': new states.stages.Limo(); //Week 4
+			case 'mall': new states.stages.Mall(); //Week 5 - Cocoa, Eggnog
+			case 'mallEvil': new states.stages.MallEvil(); //Week 5 - Winter Horrorland
+			case 'school': new states.stages.School(); //Week 6 - Senpai, Roses
+			case 'schoolEvil': new states.stages.SchoolEvil(); //Week 6 - Thorns
+			case 'tank': new states.stages.Tank(); //Week 7 - Ugh, Guns, Stress
+		}
+
+		if(isPixelStage) {
+			introSoundsSuffix = '-pixel';
+		}
+
+		add(gfGroup);
+		add(dadGroup);
+		add(boyfriendGroup);
+
+		#if LUA_ALLOWED
+		luaDebugGroup = new FlxTypedGroup<DebugLuaText>();
+		luaDebugGroup.cameras = [camOther];
+		add(luaDebugGroup);
+		#end
+
+		// "GLOBAL" SCRIPTS
+		#if LUA_ALLOWED
+		var foldersToCheck:Array<String> = Mods.directoriesWithFile(Paths.getPreloadPath(), 'scripts/');
+		for (folder in foldersToCheck)
+			for (file in FileSystem.readDirectory(folder))
 			{
-				case 'stage': new states.stages.StageWeek1(); //Week 1
-				case 'spooky': new states.stages.Spooky(); //Week 2
-				case 'philly': new states.stages.Philly(); //Week 3
-				case 'limo': new states.stages.Limo(); //Week 4
-				case 'mall': new states.stages.Mall(); //Week 5 - Cocoa, Eggnog
-				case 'mallEvil': new states.stages.MallEvil(); //Week 5 - Winter Horrorland
-				case 'school': new states.stages.School(); //Week 6 - Senpai, Roses
-				case 'schoolEvil': new states.stages.SchoolEvil(); //Week 6 - Thorns
-				case 'tank': new states.stages.Tank(); //Week 7 - Ugh, Guns, Stress
+				if(file.toLowerCase().endsWith('.lua'))
+					new FunkinLua(folder + file);
+				if(file.toLowerCase().endsWith('.hx'))
+					initHScript(folder + file);
 			}
+		#end
 
-			if(isPixelStage) {
-				introSoundsSuffix = '-pixel';
-			}
+		// STAGE SCRIPTS
+		#if LUA_ALLOWED
+		startLuasNamed('stages/' + curStage + '.lua');
+		#end
 
-			add(gfGroup);
-			add(dadGroup);
-			add(boyfriendGroup);
-
-			#if LUA_ALLOWED
-			luaDebugGroup = new FlxTypedGroup<DebugLuaText>();
-			luaDebugGroup.cameras = [camOther];
-			add(luaDebugGroup);
-			#end
-
-			// "GLOBAL" SCRIPTS
-			#if LUA_ALLOWED
-			var foldersToCheck:Array<String> = Mods.directoriesWithFile(Paths.getPreloadPath(), 'scripts/');
-			for (folder in foldersToCheck)
-				for (file in FileSystem.readDirectory(folder))
-				{
-					if(file.toLowerCase().endsWith('.lua'))
-						new FunkinLua(folder + file);
-					if(file.toLowerCase().endsWith('.hx'))
-						initHScript(folder + file);
-				}
-			#end
-
-			// STAGE SCRIPTS
-			#if LUA_ALLOWED
-			startLuasNamed('stages/' + curStage + '.lua');
-			#end
-
-			#if HSCRIPT_ALLOWED
-			startHScriptsNamed('stages/' + curStage + '.hx');
-			#end
-		});
+		#if HSCRIPT_ALLOWED
+		startHScriptsNamed('stages/' + curStage + '.hx');
+		#end
 
 		if (!stageData.hide_girlfriend)
 		{
