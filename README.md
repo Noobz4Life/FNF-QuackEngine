@@ -15,7 +15,7 @@ Extra features:
 - Custom Input Systems
 - Kade Health and Input Systems
 - Basic pre-0.7 Psych mod compatibility
-- Feral Gamemode support ([hopefully will be merged into Psych](https://github.com/ShadowMario/FNF-PsychEngine/pull/13122))
+- Feral Gamemode support ([merged into psych experimental](https://github.com/ShadowMario/FNF-PsychEngine/pull/13122))
 
 ## Installation:
 
