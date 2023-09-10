@@ -2300,6 +2300,8 @@ class PlayState extends MusicBeatState
 		deathCounter = 0;
 		seenCutscene = false;
 
+		backend.Threader.wait();
+
 		#if ACHIEVEMENTS_ALLOWED
 		if(achievementObj != null)
 			return false;
@@ -2317,7 +2319,6 @@ class PlayState extends MusicBeatState
 		var ret:Dynamic = callOnScripts('onEndSong', null, true);
 		if(ret != FunkinLua.Function_Stop && !transitioning)
 		{
-			backend.Threader.wait();
 			#if !switch
 			var percent:Float = ratingPercent;
 			if(Math.isNaN(percent)) percent = 0;
