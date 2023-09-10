@@ -1948,8 +1948,8 @@ class PlayState extends MusicBeatState
 
 			backend.Threader.create(() -> {
 				triggerEvent(eventNotes[0].event, value1, value2, leStrumTime);
-				eventNotes.shift();
 			});
+			eventNotes.shift();
 		}
 	}
 
