@@ -33,6 +33,12 @@ class GraphicsSettingsSubState extends BaseOptionsMenu
 		addOption(option);
 		antialiasingOption = optionsArray.length-1;
 
+		var option:Option = new Option('Opponent Notes',
+			'If checked, opponent notes get note splashes.',
+			'opponentSplashes',
+			'bool');
+		addOption(option);
+
 		var option:Option = new Option('Shaders', //Name
 			"If unchecked, disables shaders.\nIt's used for some visual effects, and also CPU intensive for weaker PCs.", //Description
 			'shaders',

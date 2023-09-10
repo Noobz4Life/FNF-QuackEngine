@@ -78,6 +78,8 @@ class SaveVariables {
 	// Quack Engine stuffs
 	public var inputSystem:String = "Psych";
 	public var healthSystem:String = "Psych";
+
+	public var opponentSplashes = true;
 	
 	public var precacheList:Bool = true;
 	public var precacheBase:Bool = false;
