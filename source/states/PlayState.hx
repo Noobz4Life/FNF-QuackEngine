@@ -2889,22 +2889,20 @@ class PlayState extends MusicBeatState
 		var char:Character = boyfriend;
 		if((note != null && note.gfNote) || (SONG.notes[curSection] != null && SONG.notes[curSection].gfSection)) char = gf;
 		
-		backend.Threader.create(function() {
-			if(char != null && char.hasMissAnimations)
-			{
-				var suffix:String = '';
-				if(note != null) suffix = note.animSuffix;
+		if(char != null && char.hasMissAnimations)
+		{
+			var suffix:String = '';
+			if(note != null) suffix = note.animSuffix;
 
-				var animToPlay:String = singAnimations[Std.int(Math.abs(Math.min(singAnimations.length-1, direction)))] + 'miss' + suffix;
-				char.playAnim(animToPlay, true);
-				
-				if(char != gf && combo > 5 && gf != null && gf.animOffsets.exists('sad'))
-				{
-					gf.playAnim('sad');
-					gf.specialAnim = true;
-				}
+			var animToPlay:String = singAnimations[Std.int(Math.abs(Math.min(singAnimations.length-1, direction)))] + 'miss' + suffix;
+			char.playAnim(animToPlay, true);
+			
+			if(char != gf && combo > 5 && gf != null && gf.animOffsets.exists('sad'))
+			{
+				gf.playAnim('sad');
+				gf.specialAnim = true;
 			}
-		});
+		}
 		vocals.volume = 0;
 	}
 
