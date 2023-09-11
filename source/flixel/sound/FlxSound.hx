@@ -473,23 +473,20 @@ class FlxSound extends FlxBasic
 	 */
 	public function play(ForceRestart:Bool = false, StartTime:Float = 0.0, ?EndTime:Float):FlxSound
 	{
-		backend.Threader.create(function() {
-			if (!exists)
-				return this;
-
-			if (ForceRestart)
-				cleanup(false, true);
-			else if (playing) // Already playing sound
-				return this;
-
-			if (_paused)
-				resume();
-			else
-				startSound(StartTime);
-
-			endTime = EndTime;
+		if (!exists)
 			return this;
-		});
+
+		if (ForceRestart)
+			cleanup(false, true);
+		else if (playing) // Already playing sound
+			return this;
+
+		if (_paused)
+			resume();
+		else
+			startSound(StartTime);
+
+		endTime = EndTime;
 		return this;
 	}
 
