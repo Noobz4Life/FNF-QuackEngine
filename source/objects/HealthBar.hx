@@ -47,7 +47,12 @@ class HealthBar extends FlxSpriteGroup
 
 	override function update(elapsed:Float) {
 		var value:Null<Float> = FlxMath.remapToRange(FlxMath.bound(valueFunction(), bounds.min, bounds.max), bounds.min, bounds.max, 0, 100);
-		percent = (value != null ? value : 0);
+		var newPercent = (value != null ? value : 0);
+		if(ClientPrefs.data.healthBarTweening) {
+			percent = FlxMath.lerp(percent,newPercent, 0.05);
+		} else {
+			percent = newPercent;
+		}
 		super.update(elapsed);
 	}
 	

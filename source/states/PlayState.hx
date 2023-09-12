@@ -551,6 +551,7 @@ class PlayState extends MusicBeatState
 		healthBar.scrollFactor.set();
 		healthBar.visible = !ClientPrefs.data.hideHud;
 		healthBar.alpha = ClientPrefs.data.healthBarAlpha;
+		healthBar.percent = 1;
 		reloadHealthBarColors();
 		add(healthBar);
 

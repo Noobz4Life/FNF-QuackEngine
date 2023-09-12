@@ -80,6 +80,7 @@ class SaveVariables {
 	public var healthSystem:String = "Psych";
 
 	public var opponentSplashes = true;
+	public var healthBarTweening:Bool = true;
 	
 	public var precacheList:Bool = true;
 	public var precacheBase:Bool = false;
