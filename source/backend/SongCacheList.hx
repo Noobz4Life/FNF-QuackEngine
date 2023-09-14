@@ -7,8 +7,11 @@ class SongCacheList {
     public static var cache:Map<String,String> = [];
 
     private static function createSave():FlxSave {
+        static var invalidChars = ~/[ ~%&\\;:"',<>?#]+/;
+        
+
         var save:FlxSave = new FlxSave();
-        save.bind(PlayState.SONG.song.toLowerCase(), CoolUtil.getSavePath() + "/song-cache");
+        save.bind(invalidChars.split(PlayState.SONG.song.toLowerCase()).join('-'), CoolUtil.getSavePath() + "/song-cache");
 
         return save;
     }
