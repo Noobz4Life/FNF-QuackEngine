@@ -43,11 +43,18 @@ class HealthBar extends FlxSpriteGroup
 		add(rightBar);
 		add(bg);
 		regenerateClips();
+
+		var defaultPercent = getValue();
+		this.percent = (defaultPercent != null ? defaultPercent : 0);
+	}
+
+	private function getValue():Null<Float> {
+		return FlxMath.remapToRange(FlxMath.bound(valueFunction(), bounds.min, bounds.max), bounds.min, bounds.max, 0, 100);
 	}
 
 	override function update(elapsed:Float) {
-		var value:Null<Float> = FlxMath.remapToRange(FlxMath.bound(valueFunction(), bounds.min, bounds.max), bounds.min, bounds.max, 0, 100);
-		var newPercent = (value != null ? value : 0);
+		var value:Null<Float> = getValue();
+		var newPercent:Float = (value != null ? value : 0);
 		if(ClientPrefs.data.healthBarTweening) {
 			percent = FlxMath.lerp(percent,newPercent, 0.05);
 		} else {
