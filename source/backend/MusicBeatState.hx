@@ -22,6 +22,11 @@ class MusicBeatState extends FlxUIState
 
 	public static var camBeat:FlxCamera;
 
+	override function openSubState(SubState:flixel.FlxSubState) {
+		backend.Threader.wait();
+		return super.openSubState(SubState);
+	}
+
 	override function create() {
 		camBeat = FlxG.camera;
 		var skip:Bool = FlxTransitionableState.skipNextTransOut;
@@ -118,6 +123,8 @@ class MusicBeatState extends FlxUIState
 	}
 
 	public static function switchState(nextState:FlxState = null) {
+		backend.Threader.wait();
+
 		if(nextState == null) nextState = FlxG.state;
 		if(nextState == FlxG.state)
 		{

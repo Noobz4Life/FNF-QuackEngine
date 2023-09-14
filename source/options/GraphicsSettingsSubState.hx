@@ -33,6 +33,12 @@ class GraphicsSettingsSubState extends BaseOptionsMenu
 		addOption(option);
 		antialiasingOption = optionsArray.length-1;
 
+		var option:Option = new Option('Opponent Notes',
+			'If checked, opponent notes get note splashes.',
+			'opponentSplashes',
+			'bool');
+		addOption(option);
+
 		var option:Option = new Option('Shaders', //Name
 			"If unchecked, disables shaders.\nIt's used for some visual effects, and also CPU intensive for weaker PCs.", //Description
 			'shaders',
@@ -44,6 +50,14 @@ class GraphicsSettingsSubState extends BaseOptionsMenu
 			'cacheOnGPU',
 			'bool');
 		addOption(option);
+
+		#if (target.threaded)
+		var option:Option = new Option('Multithreading', //Name
+			"If checked, offloads some stuff to another thread to eliminate stuttering.\nMay cause some things to be unstable!", //Description
+			'multiThreading',
+			'bool');
+		addOption(option);
+		#end
 
 		#if !html5 //Apparently other framerates isn't correctly supported on Browser? Probably it has some V-Sync shit enabled by default, idk
 		var option:Option = new Option('Framerate',

@@ -78,10 +78,17 @@ class SaveVariables {
 	// Quack Engine stuffs
 	public var inputSystem:String = "Psych";
 	public var healthSystem:String = "Psych";
+
+	public var opponentSplashes = true;
+	public var healthBarTweening:Bool = true;
 	
 	public var precacheList:Bool = true;
 	public var precacheBase:Bool = false;
 	public var precacheMods:Bool = false;
+
+	#if (target.threaded)
+	public var multiThreading:Bool = false;
+	#end
 
 	#if MOD_COMPAT_ALLOWED
 	public var legacyModCompat:Bool = false;

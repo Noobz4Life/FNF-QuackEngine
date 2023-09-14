@@ -112,6 +112,12 @@ class VisualsUISubState extends BaseOptionsMenu
 		option.changeValue = 0.1;
 		option.decimals = 1;
 		addOption(option);
+
+		var option:Option = new Option('Health Bar Tweening',
+			'If checked, tweens the health bar so it looks more smooth.',
+			'healthBarTweening',
+			'bool');
+		addOption(option);
 		
 		#if !mobile
 		var option:Option = new Option('FPS Counter',

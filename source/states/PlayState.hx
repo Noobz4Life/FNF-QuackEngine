@@ -649,6 +649,14 @@ class PlayState extends MusicBeatState
 			precacheList.set(Paths.formatToSongPath(ClientPrefs.data.pauseMusic), 'music');
 		}
 
+		// precache game over stuffs
+		if(SONG.player1.toLowerCase().startsWith('bf')) {
+			precacheList.set('characters/BOYFRIEND_DEAD', 'image');
+		}
+		precacheList.set('gameOver', 'music');
+		precacheList.set('gameOverEnd', 'music');
+		precacheList.set('fnf_loss_sfx', 'sound');
+
 		precacheList.set('alphabet', 'image');
 		resetRPC();
 
@@ -1946,6 +1954,8 @@ class PlayState extends MusicBeatState
 			if(eventNotes[0].value2 != null)
 				value2 = eventNotes[0].value2;
 
+			var event = eventNotes[0].event;
+			
 			triggerEvent(eventNotes[0].event, value1, value2, leStrumTime);
 			eventNotes.shift();
 		}
@@ -2296,6 +2306,8 @@ class PlayState extends MusicBeatState
 
 		deathCounter = 0;
 		seenCutscene = false;
+
+		backend.Threader.wait();
 
 		#if ACHIEVEMENTS_ALLOWED
 		if(achievementObj != null)
@@ -2944,6 +2956,10 @@ class PlayState extends MusicBeatState
 
 		if (!note.isSustainNote)
 		{
+			if(ClientPrefs.data.opponentSplashes) {
+				spawnNoteSplashOnNote(note);
+			}
+
 			note.kill();
 			notes.remove(note, true);
 			note.destroy();
@@ -3074,6 +3090,9 @@ class PlayState extends MusicBeatState
 	public function spawnNoteSplashOnNote(note:Note) {
 		if(note != null) {
 			var strum:StrumNote = playerStrums.members[note.noteData];
+			if(!note.mustPress) {
+				strum = opponentStrums.members[note.noteData];
+			}
 			if(strum != null)
 				spawnNoteSplash(strum.x, strum.y, note.noteData, note);
 		}
