@@ -194,6 +194,9 @@ class FunkinLua {
 
 		set('buildTarget', getBuildTarget());
 
+
+		set('isQuackEngine', true);
+
 		for (name => func in customFunctions)
 		{
 			if(func != null)
