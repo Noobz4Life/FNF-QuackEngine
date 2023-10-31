@@ -106,6 +106,25 @@ class Paths
 		currentLevel = name.toLowerCase();
 	}
 
+	public static function correctPath(path:String) {
+		#if linux
+		if (!FileSystem.exists(path)) {
+			var dir = haxe.io.Path.directory(path);
+			if(!FileSystem.exists(dir)) return path;
+			var fileName = haxe.io.Path.withoutDirectory(path);
+
+			var files = FileSystem.readDirectory(dir);
+			for (file in files) {
+				if(file.toLowerCase() == fileName.toLowerCase()) {
+					trace("autocorrected to "+haxe.io.Path.join([dir,file]));
+					return haxe.io.Path.join([dir,file]);
+				}
+			}
+		}
+		#end
+		return path;
+	}
+
 	public static function getPath(file:String, ?type:AssetType = TEXT, ?library:Null<String> = null, ?modsAllowed:Bool = false):String
 	{
 		#if MODS_ALLOWED
@@ -138,19 +157,19 @@ class Paths
 
 	static public function getLibraryPath(file:String, library = "preload")
 	{
-		return if (library == "preload" || library == "default") getPreloadPath(file); else getLibraryPathForce(file, library);
+		return correctPath(if (library == "preload" || library == "default") getPreloadPath(file); else getLibraryPathForce(file, library));
 	}
 
 	inline static function getLibraryPathForce(file:String, library:String, ?level:String)
 	{
 		if(level == null) level = library;
 		var returnPath = '$library:assets/$level/$file';
-		return returnPath;
+		return correctPath(returnPath);
 	}
 
 	inline public static function getPreloadPath(file:String = '')
 	{
-		return 'assets/$file';
+		return correctPath('assets/$file');
 	}
 
 	inline static public function txt(key:String, ?library:String)
@@ -485,18 +504,18 @@ class Paths
 
 	static public function modFolders(key:String) {
 		if(Mods.currentModDirectory != null && Mods.currentModDirectory.length > 0) {
-			var fileToCheck:String = mods(Mods.currentModDirectory + '/' + key);
+			var fileToCheck:String = correctPath(mods(Mods.currentModDirectory + '/' + key));
 			if(FileSystem.exists(fileToCheck)) {
 				return fileToCheck;
 			}
 		}
 
 		for(mod in Mods.getGlobalMods()){
-			var fileToCheck:String = mods(mod + '/' + key);
+			var fileToCheck:String = correctPath(mods(mod + '/' + key));
 			if(FileSystem.exists(fileToCheck))
 				return fileToCheck;
 		}
-		return 'mods/' + key;
+		return correctPath('mods/' + key);
 	}
 	#end
 }
