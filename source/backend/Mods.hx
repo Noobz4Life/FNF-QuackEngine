@@ -55,13 +55,18 @@ class Mods
 	{
 		var list:Array<String> = [];
 		#if MODS_ALLOWED
-		var modsFolder:String = Paths.mods();
-		if(FileSystem.exists(modsFolder)) {
-			for (folder in FileSystem.readDirectory(modsFolder))
-			{
-				var path = haxe.io.Path.join([modsFolder, folder]);
-				if (sys.FileSystem.isDirectory(path) && !ignoreModFolders.contains(folder.toLowerCase()) && !list.contains(folder))
-					list.push(folder);
+		final modFolders:Array<String> = [
+			"mods/",
+			#if desktop haxe.io.Path.join([lime.system.System.applicationStorageDirectory,"mods"]) #end
+		];
+		for(modsFolder in modFolders) {
+			if(FileSystem.exists(modsFolder) && FileSystem.isDirectory(modsFolder)) {
+				for (folder in FileSystem.readDirectory(modsFolder))
+				{
+					var path = haxe.io.Path.join([modsFolder, folder]);
+					if (sys.FileSystem.isDirectory(path) && !ignoreModFolders.contains(folder.toLowerCase()) && !list.contains(folder))
+						list.push(path);
+				}
 			}
 		}
 		#end
