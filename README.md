@@ -43,7 +43,7 @@ makepkg -si
 
 ### Compilation
 
-Quack engine is made for [Haxe version 4.3.1](https://haxe.org/download/version/4.3.1/), it should work on [4.2.5](https://haxe.org/download/version/4.2.5) as well due to Psych being made for that version!
+Quack engine is made for [Haxe version 4.3.2](https://haxe.org/download/version/4.3.2/), it should work on [4.2.5](https://haxe.org/download/version/4.2.5) as well due to Psych being made for that version!
 
 Open up a Command Prompt/PowerShell or Terminal in your working directory, type `haxelib install hmm`
 
