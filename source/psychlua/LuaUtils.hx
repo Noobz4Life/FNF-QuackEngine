@@ -92,7 +92,7 @@ class LuaUtils
 			for (i in 1...splitProps.length)
 			{
 				var j:Dynamic = splitProps[i].substr(0, splitProps[i].length - 1);
-				target = target[j];
+				if(target != null && j != null) target = target[j];
 			}
 			return target;
 		}
