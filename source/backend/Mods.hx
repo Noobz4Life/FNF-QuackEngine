@@ -34,8 +34,15 @@ class Mods
 		'scripts',
 		'achievements'
 	];
+	public static var modsListPath#if (desktop && useAppStorage)(get, never):String#else:String = "modsList.txt"#end;
 
 	private static var globalMods:Array<String> = [];
+
+	#if (desktop && useAppStorage)
+	public static function get_modsListPath() {
+		return haxe.io.Path.join([lime.system.System.applicationStorageDirectory,"modsList.txt"]);
+	}
+	#end
 
 	inline public static function getGlobalMods()
 		return globalMods;
@@ -55,13 +62,18 @@ class Mods
 	{
 		var list:Array<String> = [];
 		#if MODS_ALLOWED
-		var modsFolder:String = Paths.mods();
-		if(FileSystem.exists(modsFolder)) {
-			for (folder in FileSystem.readDirectory(modsFolder))
-			{
-				var path = haxe.io.Path.join([modsFolder, folder]);
-				if (sys.FileSystem.isDirectory(path) && !ignoreModFolders.contains(folder.toLowerCase()) && !list.contains(folder))
-					list.push(folder);
+		final modFolders:Array<String> = [
+			"mods/",
+			#if (desktop && useAppStorage) haxe.io.Path.join([lime.system.System.applicationStorageDirectory,"mods"]) #end
+		];
+		for(modsFolder in modFolders) {
+			if(FileSystem.exists(modsFolder) && FileSystem.isDirectory(modsFolder)) {
+				for (folder in FileSystem.readDirectory(modsFolder))
+				{
+					var path = haxe.io.Path.join([modsFolder, folder]);
+					if (sys.FileSystem.isDirectory(path) && !ignoreModFolders.contains(folder.toLowerCase()) && !list.contains(folder))
+						list.push(path);
+				}
 			}
 		}
 		#end
@@ -157,7 +169,7 @@ class Mods
 
 		#if MODS_ALLOWED
 		try {
-			for (mod in CoolUtil.coolTextFile('modsList.txt'))
+			for (mod in CoolUtil.coolTextFile(modsListPath))
 			{
 				//trace('Mod: $mod');
 				if(mod.trim().length < 1) continue;
@@ -183,7 +195,7 @@ class Mods
 		var list:Array<Array<Dynamic>> = [];
 		var added:Array<String> = [];
 		try {
-			for (mod in CoolUtil.coolTextFile('modsList.txt'))
+			for (mod in CoolUtil.coolTextFile(modsListPath))
 			{
 				var dat:Array<String> = mod.split("|");
 				var folder:String = dat[0];
@@ -217,7 +229,7 @@ class Mods
 			fileStr += values[0] + '|' + (values[1] ? '1' : '0');
 		}
 
-		File.saveContent('modsList.txt', fileStr);
+		File.saveContent(modsListPath, fileStr);
 		updatedOnState = true;
 		//trace('Saved modsList.txt');
 		#end

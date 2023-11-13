@@ -26,9 +26,24 @@ Note that there is no releases for macOS, iOS, or Android. There is also not a b
 1. Simply go to the [latest release](https://github.com/Noobz4LIfe/FNF-QuackEngine/releases/latest) and download the version for your platform.
 2. Extract it into a folder
 3. Open QuackEngine and begin playing!
+
+#### Arch Linux User Repository (AUR)
+
+Quack Engine is also available on the AUR as [funkin-quack-git](https://aur.archlinux.org/packages/funkin-quack-git)!
+
+Either use your favorite AUR helper, or run the following commands in your terminal:
+
+```
+git clone https://aur.archlinux.org/funkin-quack-git.git
+cd funkin-quack-git
+makepkg -si
+```
+
+(note that the AUR builds with the compiler flag 'useAppStorage', which makes the game use .local/share/nubz4lif as it's directory for mods and modsList.txt)
+
 ### Compilation
 
-Quack engine is made for [Haxe version 4.3.1](https://haxe.org/download/version/4.3.1/), it should work on [4.2.5](https://haxe.org/download/version/4.2.5) as well due to Psych being made for that version!
+Quack engine is made for [Haxe version 4.3.2](https://haxe.org/download/version/4.3.2/), it should work on [4.2.5](https://haxe.org/download/version/4.2.5) as well due to Psych being made for that version!
 
 Open up a Command Prompt/PowerShell or Terminal in your working directory, type `haxelib install hmm`
 
