@@ -2868,6 +2868,10 @@ class PlayState extends MusicBeatState
 
 		if (!note.isSustainNote)
 		{
+			if(ClientPrefs.data.opponentSplashes) {
+				spawnNoteSplashOnNote(note);
+			}
+			
 			note.kill();
 			notes.remove(note, true);
 			note.destroy();
