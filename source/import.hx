@@ -1,6 +1,5 @@
-
+#if !macro
 //Discord API
-#if (!macro)
 #if desktop
 import backend.Discord;
 #end
@@ -9,6 +8,17 @@ import backend.Discord;
 #if LUA_ALLOWED
 import llua.*;
 import llua.Lua;
+#end
+
+#if ACHIEVEMENTS_ALLOWED
+import backend.Achievements;
+#end
+
+#if sys
+import sys.*;
+import sys.io.*;
+#elseif js
+import js.html.*;
 #end
 
 import backend.Paths;
@@ -33,6 +43,10 @@ import objects.BGSprite;
 
 import states.PlayState;
 import states.LoadingState;
+
+#if flxanimate
+import flxanimate.*;
+#end
 
 //Flixel
 #if (flixel >= "5.3.0")

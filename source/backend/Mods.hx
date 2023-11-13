@@ -1,11 +1,5 @@
 package backend;
 
-#if sys
-import sys.FileSystem;
-import sys.io.File;
-#else
-import lime.utils.Assets;
-#end
 import tjson.TJSON as Json;
 
 typedef ModsList = {
@@ -71,7 +65,7 @@ class Mods
 				for (folder in FileSystem.readDirectory(modsFolder))
 				{
 					var path = haxe.io.Path.join([modsFolder, folder]);
-					if (sys.FileSystem.isDirectory(path) && !ignoreModFolders.contains(folder.toLowerCase()) && !list.contains(folder))
+					if (FileSystem.isDirectory(path) && !ignoreModFolders.contains(folder.toLowerCase()) && !list.contains(folder))
 						list.push(path);
 				}
 			}
@@ -82,7 +76,7 @@ class Mods
 	
 	inline public static function mergeAllTextsNamed(path:String, defaultDirectory:String = null, allowDuplicates:Bool = false)
 	{
-		if(defaultDirectory == null) defaultDirectory = Paths.getPreloadPath();
+		if(defaultDirectory == null) defaultDirectory = Paths.getSharedPath();
 		defaultDirectory = defaultDirectory.trim();
 		if(!defaultDirectory.endsWith('/')) defaultDirectory += '/';
 		if(!defaultDirectory.startsWith('assets/')) defaultDirectory = 'assets/$defaultDirectory';
