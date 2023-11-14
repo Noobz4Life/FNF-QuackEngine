@@ -33,13 +33,6 @@ import haxe.io.Path;
 ')
 #end
 
-#if linux
-@:cppInclude('./external/gamemode_client.h')
-@:cppFileCode('
-	#define GAMEMODE_AUTO
-')
-#end
-
 class Main extends Sprite
 {
 	var game = {
