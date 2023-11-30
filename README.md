@@ -21,7 +21,7 @@ Extra features:
 
 ### Releases
 
-Note that there is no releases for macOS, iOS, or Android. There is also not a build for 32-bit linux (there is one for 64-bit though!).
+Note that there is no releases for 32-bit, nor is there any for mobile.
 
 1. Simply go to the [latest release](https://github.com/Noobz4LIfe/FNF-QuackEngine/releases/latest) and download the version for your platform.
 2. Extract it into a folder
