@@ -7,7 +7,7 @@ class SongCacheList {
     public static var cache:Map<String,String> = [];
 
     private static function createSave():FlxSave {
-        static var invalidChars = ~/[ ~%&\\;:"',<>?#]+/;
+        final invalidChars = ~/[ ~%&\\;:"',<>?#]+/;
         
 
         var save:FlxSave = new FlxSave();
