@@ -19,44 +19,7 @@ Extra features:
 
 ## Installation:
 
-### Releases
-
-Note that there is no releases for macOS, iOS, or Android. There is also not a build for 32-bit linux (there is one for 64-bit though!).
-
-1. Simply go to the [latest release](https://github.com/Noobz4LIfe/FNF-QuackEngine/releases/latest) and download the version for your platform.
-2. Extract it into a folder
-3. Open QuackEngine and begin playing!
-
-#### Arch Linux User Repository (AUR)
-
-Quack Engine is also available on the AUR as [funkin-quack-git](https://aur.archlinux.org/packages/funkin-quack-git)!
-
-Either use your favorite AUR helper, or run the following commands in your terminal:
-
-```
-git clone https://aur.archlinux.org/funkin-quack-git.git
-cd funkin-quack-git
-makepkg -si
-```
-
-(note that the AUR builds with the compiler flag 'useAppStorage', which makes the game use .local/share/nubz4lif as it's directory for mods and modsList.txt)
-
-### Compilation
-
-Quack engine is made for [Haxe version 4.3.2](https://haxe.org/download/version/4.3.2/), it should work on [4.2.5](https://haxe.org/download/version/4.2.5) as well due to Psych being made for that version!
-
-Open up a Command Prompt/PowerShell or Terminal in your working directory, type `haxelib install hmm`
-
-After it finishes, simply type `haxelib run hmm install` in order to install all the needed libraries for *Quack Engine!*
-
-If the compiler gives an error saying that hxCodec cannot be found read this to fix it:
-
-1. Open a command prompt **on your desktop**
-2. Type 'haxelib git hxCodec https://github.com/polybiusproxy/hxCodec.git'
-3. Refollow the steps above
-4. If it doesn't work, try refollowing step 2 but in your working directory.
-
-* Source: ShadowMario/FNF-PsychEngine#12770
+Refer to [the Build Instructions](./BUILDING.md)
 
 ## Customization:
 
@@ -74,19 +37,19 @@ same goes for *Lua Scripts*, comment out or delete the line with `LUA_ALLOWED`, 
 
 ### Psych Engine
 * Shadow Mario - Programmer
-* RiverOaken - Artist
-* Yoshubs - Assistant Programmer
+* Riveren - Artist
 
 ### Special Thanks
 * bbpanzu - Ex-Programmer
-* Yoshubs - New Input System
+* Yoshubs - Ex-Programmer
 * SqirraRNG - Crash Handler and Base code for Chart Editor's Waveform
 * KadeDev - Fixed some cool stuff on Chart Editor and other PRs (also creator of Kade Engine)
 * iFlicky - Composer of Psync and Tea Time, also made the Dialogue Sounds
 * PolybiusProxy - .MP4 Video Loader Library (hxCodec)
 * Keoiki - Note Splash Animations
 * Smokey - Sprite Atlas Support
-* Nebula the Zorua - LUA JIT Fork and some Lua reworks
+* Nebula the Zorua - some Lua reworks
+* superpowers04 - LUA JIT Fork
 _____________________________________
 
 # Features
