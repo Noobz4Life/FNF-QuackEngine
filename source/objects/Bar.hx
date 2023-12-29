@@ -51,11 +51,11 @@ class Bar extends FlxSpriteGroup
 			super.update(elapsed);
 			return;
 		}
-		var newPercent = 0;
+		var newPercent:Float = 0.0;
 		if(valueFunction != null)
 		{
 			var value:Null<Float> = FlxMath.remapToRange(FlxMath.bound(valueFunction(), bounds.min, bounds.max), bounds.min, bounds.max, 0, 100);
-			newPercent = (value != null ? value : 0);
+			newPercent = (value != null ? value : 0.0);
 		}
 		else newPercent = 0;
 		if(ClientPrefs.data.healthBarTweening) {
