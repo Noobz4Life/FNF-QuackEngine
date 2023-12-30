@@ -3128,8 +3128,10 @@ class PlayState extends MusicBeatState
 			if(!note.mustPress) {
 				strum = opponentStrums.members[note.noteData];
 			}
-			if(strum != null)
-				spawnNoteSplash(strum.x, strum.y, note.noteData, note);
+			if(strum != null) {
+				var splash = spawnNoteSplash(strum.x, strum.y, note.noteData, note);
+				splash.alpha = strum.alpha;
+			}
 		}
 	}
 
@@ -3137,6 +3139,8 @@ class PlayState extends MusicBeatState
 		var splash:NoteSplash = grpNoteSplashes.recycle(NoteSplash);
 		splash.setupNoteSplash(x, y, data, note);
 		grpNoteSplashes.add(splash);
+
+		return splash;
 	}
 
 	override function destroy() {
