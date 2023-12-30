@@ -2996,12 +2996,13 @@ class PlayState extends MusicBeatState
 		var result:Dynamic = callOnLuas('opponentNoteHitPost', [notes.members.indexOf(note), Math.abs(note.noteData), note.noteType, note.isSustainNote]);
 		if(result != FunkinLua.Function_Stop && result != FunkinLua.Function_StopHScript && result != FunkinLua.Function_StopAll) callOnHScript('opponentNoteHitPost', [note]);
 
-		if (!note.isSustainNote)
+		if (!note.isSustainNote) {
 			if(ClientPrefs.data.opponentSplashes) {
 				spawnNoteSplashOnNote(note);
 			}
 
 			invalidateNote(note);
+		}
 	}
 
 	public function goodNoteHit(note:Note):Void
