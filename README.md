@@ -17,9 +17,37 @@ Extra features:
 - Basic pre-0.7 Psych mod compatibility
 - Feral Gamemode support ([merged into psych experimental](https://github.com/ShadowMario/FNF-PsychEngine/pull/13122))
 
+Planned features:
+- Touchscreen/Mobile support
+- Multithreading (very basic support is in right now, but making it work for more complex things will require some rewrites)
+
 ## Installation:
 
+### Releases
+
+Note that there is no releases for 32-bit operation systems at the current moment.
+
+1. Simply go to the [latest release](https://github.com/Noobz4LIfe/FNF-QuackEngine/releases/latest) and download the version for your platform.
+2. Extract it into a folder
+3. Open QuackEngine and begin playing!
+
+### Building
+
 Refer to [the Build Instructions](./BUILDING.md)
+
+#### Arch Linux User Repository (AUR)
+
+Quack Engine is also available on the AUR as [funkin-quack-git](https://aur.archlinux.org/packages/funkin-quack-git)!
+
+Either use your favorite AUR helper, or run the following commands in your terminal:
+
+```
+git clone https://aur.archlinux.org/funkin-quack-git.git
+cd funkin-quack-git
+makepkg -si
+```
+
+(note that the AUR builds with the compiler flag 'useAppStorage', which makes the game use .local/share/nubz4lif as it's directory for mods and modsList.txt)
 
 ## Customization:
 
