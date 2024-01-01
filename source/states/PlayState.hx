@@ -174,6 +174,8 @@ class PlayState extends MusicBeatState
 	public var playerStrums:FlxTypedGroup<StrumNote>;
 	public var grpNoteSplashes:FlxTypedGroup<NoteSplash>;
 
+	public var touchStrums:FlxTypedGroup<TouchScreenStrum>;
+
 	public var camZooming:Bool = false;
 	public var camZoomingMult:Float = 1;
 	public var camZoomingDecay:Float = 1;
@@ -1006,6 +1008,23 @@ class PlayState extends MusicBeatState
 				setOnScripts('defaultOpponentStrumX' + i, opponentStrums.members[i].x);
 				setOnScripts('defaultOpponentStrumY' + i, opponentStrums.members[i].y);
 				//if(ClientPrefs.data.middleScroll) opponentStrums.members[i].visible = false;
+			}
+
+			if(ClientPrefs.data.touchScreen) {
+				touchStrums = new FlxTypedGroup<TouchScreenStrum>();
+				touchStrums.cameras = [camHUD];
+
+				var y = 0;
+				for (i in 0...playerStrums.length) {
+					var strum = playerStrums.members[i];
+					var margin = 6;
+					var color = FlxColor.fromRGB(strum.rgbShader.r.red,strum.rgbShader.r.green,strum.rgbShader.r.blue);
+
+					var touchStrum = new TouchScreenStrum(((FlxG.width/playerStrums.length) * i) + margin,margin,(FlxG.width/playerStrums.length) - margin*2,FlxG.height - margin*2, color);
+					touchStrum.camera = camHUD;
+					touchStrums.add(touchStrum);
+				}
+				add(touchStrums);
 			}
 
 			startedCountdown = true;
@@ -2782,6 +2801,7 @@ class PlayState extends MusicBeatState
 	// Hold notes
 	private function keysCheck():Void
 	{
+
 		// HOLDING
 		var holdArray:Array<Bool> = [];
 		var pressArray:Array<Bool> = [];
@@ -2793,6 +2813,22 @@ class PlayState extends MusicBeatState
 			{
 				pressArray.push(controls.justPressed(key));
 				releaseArray.push(controls.justReleased(key));
+			}
+		}
+
+		if (touchStrums != null) {
+			for (i in 0...touchStrums.length) {
+				var touchStrum = touchStrums.members[i];
+				if(touchStrum != null) {
+					touchStrum.updateTouch();
+
+					if(touchStrum.justPressed) keyPressed(i);
+					if(touchStrum.justReleased) keyReleased(i);
+
+					holdArray[i] = (holdArray[i] || touchStrum.pressed);
+					pressArray[i] = (pressArray[i] || touchStrum.justPressed);
+					releaseArray[i] = (releaseArray[i] || touchStrum.justReleased);
+				}
 			}
 		}
 
