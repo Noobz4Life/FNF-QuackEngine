@@ -9,7 +9,6 @@ class SongCacheList {
     private static function createSave():FlxSave {
         final invalidChars = ~/[ ~%&\\;:"',<>?#]+/;
         
-
         var save:FlxSave = new FlxSave();
         save.bind(invalidChars.split(PlayState.SONG.song.toLowerCase()).join('-'), CoolUtil.getSavePath() + "/song-cache");
 
@@ -40,6 +39,8 @@ class SongCacheList {
 
     public static function saveSongCache() {
         trace("save called");
+        backend.Threader.wait();
+
         var save:FlxSave = createSave();
         save.data.cache = cache;
         save.flush();
@@ -47,7 +48,9 @@ class SongCacheList {
 
     public static function reset() {
         trace("reset called");
+        backend.Threader.wait();
+
         cache = [];
-        backend.Threader.create(loadSongCache);
+        loadSongCache();
     }
 }
