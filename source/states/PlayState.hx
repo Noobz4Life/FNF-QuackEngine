@@ -56,6 +56,10 @@ import psychlua.LuaUtils;
 import psychlua.HScript;
 #end
 
+#if (TOUCHSCREEN_SUPPORT && FLX_TOUCH)
+import objects.touch.*;
+#end
+
 #if SScript
 import tea.SScript;
 #end
@@ -174,7 +178,9 @@ class PlayState extends MusicBeatState
 	public var playerStrums:FlxTypedGroup<StrumNote>;
 	public var grpNoteSplashes:FlxTypedGroup<NoteSplash>;
 
+	#if (TOUCHSCREEN_SUPPORT && FLX_TOUCH)
 	public var touchStrums:FlxTypedGroup<TouchScreenStrum>;
+	#end
 
 	public var camZooming:Bool = false;
 	public var camZoomingMult:Float = 1;
@@ -559,6 +565,7 @@ class PlayState extends MusicBeatState
 		healthBar.scrollFactor.set();
 		healthBar.visible = !ClientPrefs.data.hideHud;
 		healthBar.alpha = ClientPrefs.data.healthBarAlpha;
+		healthBar.percent = 50;
 		reloadHealthBarColors();
 		uiGroup.add(healthBar);
 
@@ -1010,6 +1017,7 @@ class PlayState extends MusicBeatState
 				//if(ClientPrefs.data.middleScroll) opponentStrums.members[i].visible = false;
 			}
 
+			#if (TOUCHSCREEN_SUPPORT && FLX_TOUCH)
 			if(ClientPrefs.data.touchScreen) {
 				touchStrums = new FlxTypedGroup<TouchScreenStrum>();
 				touchStrums.cameras = [camHUD];
@@ -1026,6 +1034,7 @@ class PlayState extends MusicBeatState
 				}
 				add(touchStrums);
 			}
+			#end
 
 			startedCountdown = true;
 			Conductor.songPosition = -Conductor.crochet * 5;
@@ -2378,7 +2387,10 @@ class PlayState extends MusicBeatState
 			}
 		}
 
-		if (ClientPrefs.data.precacheList) SongCacheList.saveSongCache();
+		if (ClientPrefs.data.precacheList) {
+			SongCacheList.saveSongCache();
+			SongCacheList.reset();
+		}
 
 		timeBar.visible = false;
 		timeTxt.visible = false;
@@ -2820,6 +2832,7 @@ class PlayState extends MusicBeatState
 			}
 		}
 
+		#if (TOUCHSCREEN_SUPPORT && FLX_TOUCH)
 		if (touchStrums != null) {
 			for (i in 0...touchStrums.length) {
 				var touchStrum = touchStrums.members[i];
@@ -2835,6 +2848,7 @@ class PlayState extends MusicBeatState
 				}
 			}
 		}
+		#end
 
 		if (inputSystem != null) {
 			inputSystem.holdArray = holdArray;

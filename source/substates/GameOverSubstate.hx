@@ -25,6 +25,8 @@ class GameOverSubstate extends MusicBeatSubstate
 
 	public static var instance:GameOverSubstate;
 
+	#if (TOUCHSCREEN_SUPPORT && FLX_TOUCH) private var touchBackButton:objects.touch.TouchScreenButton; #end
+
 	public static function resetVariables() {
 		characterName = 'bf-dead';
 		deathSoundName = 'fnf_loss_sfx';
@@ -72,6 +74,16 @@ class GameOverSubstate extends MusicBeatSubstate
 		camFollow.setPosition(boyfriend.getGraphicMidpoint().x + boyfriend.cameraPosition[0], boyfriend.getGraphicMidpoint().y + boyfriend.cameraPosition[1]);
 		FlxG.camera.focusOn(new FlxPoint(FlxG.camera.scroll.x + (FlxG.camera.width / 2), FlxG.camera.scroll.y + (FlxG.camera.height / 2)));
 		add(camFollow);
+
+		#if (TOUCHSCREEN_SUPPORT && FLX_TOUCH)
+		if(ClientPrefs.data.touchScreen) {
+			touchBackButton = new objects.touch.TouchScreenButton(0, FlxG.height - 32);
+			touchBackButton.scrollFactor.set(0,0);
+			touchBackButton.loadGraphic(Paths.image('touch/back'));
+
+			add(touchBackButton);
+		}
+		#end
 	}
 
 	public var startedDeath:Bool = false;
@@ -81,12 +93,35 @@ class GameOverSubstate extends MusicBeatSubstate
 
 		PlayState.instance.callOnScripts('onUpdate', [elapsed]);
 
+		#if (TOUCHSCREEN_SUPPORT && FLX_TOUCH)
+		if(ClientPrefs.data.touchScreen) {
+			for (touch in FlxG.touches.list) {
+				if(touch.justPressed) {
+					var pixel = boyfriend.getPixelAtScreen(touch.getScreenPosition(camera),camera);
+					if(pixel != null) { // we just touched bf!!
+						endBullshit();
+					}
+				}
+			}
+
+			#if (debug && !mobile)
+			FlxG.mouse.visible = true;
+			if(FlxG.mouse.justPressed) {
+				var pixel = boyfriend.getPixelAtScreen(FlxG.mouse.getScreenPosition(camera),camera);
+				if(pixel != null) { // we just touched bf!!
+					endBullshit();
+				}
+			}
+			#end
+		}
+		#end
+
 		if (controls.ACCEPT)
 		{
 			endBullshit();
 		}
 
-		if (controls.BACK)
+		if (controls.BACK #if (TOUCHSCREEN_SUPPORT && FLX_TOUCH) || (touchBackButton != null && touchBackButton.justPressed) #end)
 		{
 			#if desktop DiscordClient.resetClientID(); #end
 			FlxG.sound.music.stop();

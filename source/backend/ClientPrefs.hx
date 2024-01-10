@@ -77,7 +77,6 @@ import states.TitleState;
 	public var discordRPC:Bool = true;
 
 	// Quack Engine stuffs
-	public var touchScreen:Bool = #if mobile true #else false #end;
 
 	public var inputSystem:String = "Psych";
 	public var healthSystem:String = "Psych";
@@ -88,6 +87,10 @@ import states.TitleState;
 	public var precacheList:Bool = true;
 	public var precacheBase:Bool = false;
 	public var precacheMods:Bool = false;
+
+	#if (TOUCHSCREEN_SUPPORT && FLX_TOUCH)
+	public var touchScreen:Bool = #if mobile true #else false #end;
+	#end
 
 	#if (target.threaded)
 	public var multiThreading:Bool = false;

@@ -1,4 +1,5 @@
-package objects;
+#if (TOUCHSCREEN_SUPPORT && FLX_TOUCH)
+package objects.touch;
 
 class TouchScreenStrum extends flixel.addons.display.shapes.FlxShapeBox
 {
@@ -52,6 +53,8 @@ class TouchScreenStrum extends flixel.addons.display.shapes.FlxShapeBox
         //#end
 
         if(justPressed || justReleased) {
+            updateTouch();
+
             if(pressed) alpha = pressedAlpha else alpha = unpressedAlpha;
             redrawShape();
         }
@@ -59,3 +62,4 @@ class TouchScreenStrum extends flixel.addons.display.shapes.FlxShapeBox
         super.update(elapsed);
     }
 }
+#end

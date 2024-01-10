@@ -40,11 +40,13 @@ class GameplaySettingsSubState extends BaseOptionsMenu
 			['Psych','Kade']);
 		addOption(option);
 
+		#if (TOUCHSCREEN_SUPPORT && FLX_TOUCH)
 		var option:Option = new Option('Touchscreen',
 			'If checked, will add boxes in-game for touchsceen support\nMostly made for mobile devices',
 			'touchScreen',
 			'bool');
 		addOption(option);
+		#end
 
 		#if MOD_COMPAT_ALLOWED
 		var option:Option = new Option('0.6 Compatibility',

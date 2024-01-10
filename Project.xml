@@ -28,6 +28,11 @@
 	<define name="PSYCH_WATERMARKS"/> <!-- DELETE THIS TO REMOVE WATERMARKS/DEV NAMES ON TITLE SCREEN -->
 	<define name="TITLE_SCREEN_EASTER_EGG" if="officialBuild"/> <!-- DELETE THE if="officialBuild" for enabling this on an unofficial build -->
 
+	<!-- ______________________ QUACK ENGINE CUSTOMIZATION ______________________ -->
+
+	<define name="MOD_COMPAT_ALLOWED" if="MODS_ALLOWED LUA_ALLOWED"/>
+	<define name="TOUCHSCREEN_SUPPORT" if="FLX_TOUCH (mobile || android || ios)"/>
+
 	<!-- ____________________________ Window Settings ___________________________ -->
 
 	<!--These window settings apply to all targets-->
@@ -82,8 +87,6 @@
 		<assets path='example_mods' rename='mods' embed='false'/>
 	</section>
 	<assets path='art/readme.txt' rename='do NOT readme.txt' />
-
-	<define name="MOD_COMPAT_ALLOWED" if="MODS_ALLOWED LUA_ALLOWED"/>
 
 	<!-- _______________________________ Libraries ______________________________ -->
 
