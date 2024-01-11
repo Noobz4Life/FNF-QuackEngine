@@ -7,9 +7,9 @@ name: Build (Mobile)
 on:
   # Triggers the workflow on push or pull request events but only for the master branch
   push:
-    branches: [ main, experimental, psych-update ]
+    branches: [ main, experimental, psych-update, mobile-build-wip ]
   pull_request:
-    branches: [ main, experimental, psych-update ]
+    branches: [ main, experimental, psych-update, mobile-build-wip ]
 
   workflow_call:
     inputs:
