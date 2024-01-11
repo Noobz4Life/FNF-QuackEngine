@@ -124,6 +124,11 @@ jobs:
         with:
           distribution: 'temurin'
           java-version: '17'
+      - uses: nttld/setup-ndk@v1
+        id: setup-ndk
+        with:
+          ndk-version: r21e
+          add-to-path: false
       - uses: krdlab/setup-haxe@master
         with:
           haxe-version: latest
@@ -135,6 +140,8 @@ jobs:
           haxelib setup ~/haxelib
           haxelib install hxcpp > /dev/null --quiet
           haxe -cp ./setup -D analyzer-optimize -main Main --interp
+
+          haxelib install extension-androidtools
       - name: Skip SScript setup mode
         run: echo 'oy9:showMacroty8:loopCosti25y10:includeAllfg' >> ~/settings.cocoa
       - name: Create Version Tag
@@ -146,13 +153,19 @@ jobs:
           haxelib run lime config ANDROID_NDK_ROOT $ANDROID_NDK_HOME
           haxelib run lime config JAVA_HOME $JAVA_HOME
           haxelib run lime config ANDROID_SETUP true
+        env:
+          ANDROID_NDK_HOME: ${{ steps.setup-ndk.outputs.ndk-path }}
       - name: Compile
         run: haxelib run lime build Project.xml android -arm64 --app-version="4.0.0-${{ github.run_id}}" -D ${{ inputs.buildFlags }}
+        env:
+          cert_pass: nubz4lif
+          cert_alias_pass: nubz4lif
       - name: Publish Artifact
         uses: actions/upload-artifact@v2.2.4
         with:
           name: androidBuild
           path: 'export/release/android/bin/app/build/outputs/apk/release/*.apk'
+          if-no-files-found: error
   buildiOS:
     runs-on: macos-13
 
@@ -162,7 +175,7 @@ jobs:
 
       - uses: krdlab/setup-haxe@master
         with:
-          haxe-version: 4.2.5
+          haxe-version: latest
       # Runs a set of commands using the runners shell
       - name: Install Haxelib
         run: |
@@ -175,8 +188,14 @@ jobs:
         run: echo "${{github.run_id}}" > VERSION
       - name: Compile
         run: haxelib run lime build ios --app-version="4.0.0-${{ github.run_id}}" -D ${{ inputs.buildFlags }}
+      - name: Create IPA
+        run: |
+          cd export/release/ios/build/Release-iphoneos
+          mkdir apps
+          mv *.app apps
+          zip -r FNF-QuackEngine.ipa apps
       - name: Publish Artifact
         uses: actions/upload-artifact@v2.2.4
         with:
           name: iOSBuild
-          path: export/release/ios/bin
+          path: export/release/ios/build/Release-iphoneos/FNF-QuackEngine.ipa

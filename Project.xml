@@ -90,6 +90,8 @@
 
 	<!-- _______________________________ Libraries ______________________________ -->
 
+	<haxelib name="extension-androidtools" if="android" />
+
 	<haxelib name="flixel" />
 	<haxelib name="flixel-ui" />
 	<haxelib name="flixel-addons" />
