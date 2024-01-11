@@ -31,7 +31,7 @@
 	<!-- ______________________ QUACK ENGINE CUSTOMIZATION ______________________ -->
 
 	<define name="MOD_COMPAT_ALLOWED" if="MODS_ALLOWED LUA_ALLOWED"/>
-	<define name="TOUCHSCREEN_SUPPORT" if="FLX_TOUCH (mobile || android || ios)"/>
+	<define name="TOUCHSCREEN_SUPPORT" if="FLX_TOUCH mobile" unless="FLX_NO_TOUCH"/>
 
 	<!-- ____________________________ Window Settings ___________________________ -->
 
