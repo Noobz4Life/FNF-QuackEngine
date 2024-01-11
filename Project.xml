@@ -90,8 +90,6 @@
 
 	<!-- _______________________________ Libraries ______________________________ -->
 
-	<haxelib name="extension-androidtools" if="android" />
-
 	<haxelib name="flixel" />
 	<haxelib name="flixel-ui" />
 	<haxelib name="flixel-addons" />
@@ -158,6 +156,14 @@
 	<!--Macro fixes-->
 	<haxeflag name="--macro" value="allowPackage('flash')" />
 	<haxeflag name="--macro" value="include('my.pack')" />
+
+	<!--Mobile build stuffs-->
+	<haxelib name="extension-androidtools" if="android" />
+
+	<section if="ios">
+		<!--Dependency--> 
+		<dependency name="Metal.framework" if="${lime &lt; 8.0.0}" />
+	</section>
 
 	<!-- _________________________________ Custom _______________________________ -->
 
