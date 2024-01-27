@@ -34,7 +34,7 @@ class OptionsState extends MusicBeatState
 	var selectorRight:Alphabet;
 
 	override function create() {
-		#if desktop
+		#if DISCORD_ALLOWED
 		DiscordClient.changePresence("Options Menu", null);
 		#end
 
@@ -72,6 +72,9 @@ class OptionsState extends MusicBeatState
 		super.closeSubState();
 		#if desktop DiscordClient.changePresence("Options Menu", null); #end
 		ClientPrefs.saveSettings();
+		#if DISCORD_ALLOWED
+		DiscordClient.changePresence("Options Menu", null);
+		#end
 	}
 
 	override function update(elapsed:Float) {
@@ -89,7 +92,7 @@ class OptionsState extends MusicBeatState
 			if(onPlayState)
 			{
 				StageData.loadDirectory(PlayState.SONG);
-				MusicBeatState.switchState(new PlayState());
+				LoadingState.loadAndSwitchState(new PlayState());
 				FlxG.sound.music.volume = 0;
 			}
 			else MusicBeatState.switchState(new MainMenuState());
