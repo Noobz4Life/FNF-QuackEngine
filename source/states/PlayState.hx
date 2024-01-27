@@ -673,6 +673,8 @@ class PlayState extends MusicBeatState
 		Paths.clearUnusedMemory();
 
 		if(eventNotes.length < 1) checkEventNote();
+
+		SongCacheList.reset();
 	}
 
 	function set_songSpeed(value:Float):Float
@@ -1067,6 +1069,8 @@ class PlayState extends MusicBeatState
 						countdownGo = createCountdownSprite(introAlts[2], antialias);
 						FlxG.sound.play(Paths.sound('introGo' + introSoundsSuffix), 0.6);
 						tick = GO;
+						SongCacheList.reset();
+						SongCacheList.recordingEnabled = true;
 					case 4:
 						tick = START;
 				}

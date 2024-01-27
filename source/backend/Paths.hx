@@ -202,7 +202,7 @@ class Paths
 
 	static public function sound(key:String, ?library:String):Sound
 	{
-		if (ClientPrefs.data.precacheList) SongCacheList.cache[key] = "sound";
+		if (ClientPrefs.data.precacheList) SongCacheList.addToCache(key, 'sound');
 
 		var sound:Sound = returnSound('sounds', key, library);
 		return sound;
@@ -215,7 +215,7 @@ class Paths
 
 	inline static public function music(key:String, ?library:String):Sound
 	{
-		if (ClientPrefs.data.precacheList) SongCacheList.cache[key] = "music";
+		if (ClientPrefs.data.precacheList) SongCacheList.addToCache(key, "music");
 
 		var file:Sound = returnSound('music', key, library);
 		return file;
@@ -240,7 +240,7 @@ class Paths
 	public static var currentTrackedAssets:Map<String, FlxGraphic> = [];
 	static public function image(key:String, ?library:String = null, ?allowGPU:Bool = true):FlxGraphic
 	{
-		if (ClientPrefs.data.precacheList) SongCacheList.cache[key] = "image";
+		if (ClientPrefs.data.precacheList) SongCacheList.addToCache(key, "image");
 
 		var bitmap:BitmapData = null;
 		var file:String = null;
