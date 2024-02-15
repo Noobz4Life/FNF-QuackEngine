@@ -5,6 +5,7 @@ import haxe.io.Path;
 
 class SongCacheList {
     public static var cache:Map<String,String> = [];
+    public static var recordingEnabled:Bool = false;
 
     private static function createSave():FlxSave {
         final invalidChars = ~/[ ~%&\\;:"',<>?#]+/;
@@ -13,6 +14,13 @@ class SongCacheList {
         save.bind(invalidChars.split(PlayState.SONG.song.toLowerCase()).join('-'), CoolUtil.getSavePath() + "/song-cache");
 
         return save;
+    }
+
+    public static function addToCache(asset:String, type:String) {
+        if(recordingEnabled) {
+            SongCacheList.cache[asset] = type;
+            trace("added " + asset + " to cache as type " + type);
+        }
     }
 
     public static function loadSongCache() {
@@ -47,10 +55,10 @@ class SongCacheList {
     }
 
     public static function reset() {
-        trace("reset called");
         backend.Threader.wait();
 
         cache = [];
         loadSongCache();
+        recordingEnabled = false;
     }
 }
